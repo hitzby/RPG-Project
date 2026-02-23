@@ -128,4 +128,5 @@ CMakeFiles/RPG_Game.dir/main.cpp.obj: D:\RPG-Project\main.cpp \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/ostream.tcc \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/istream \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/istream.tcc \
- D:\RPG-Project\character/character.h D:\RPG-Project\player/player.h
+ D:\RPG-Project\player/player.h D:/RPG-Project/character/character.h \
+ D:\RPG-Project\enemy/enemy.h

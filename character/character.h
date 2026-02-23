@@ -24,4 +24,5 @@ public:
     bool isalive() const;
     int getmaxhp() const;
     int getmaxmp() const;
+    virtual ~Character(){}
 };

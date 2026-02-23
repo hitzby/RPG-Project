@@ -2,6 +2,7 @@
 #include "../character/character.h"
 class player : public Character
 {
+    private:
     int level;
     int exp;
     int coin;
