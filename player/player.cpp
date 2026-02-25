@@ -68,7 +68,6 @@ void player::heal(int amount) {
 }
 void player::attacktarget(Character &target) {
   int damage = attack;
-  srand(unsigned(time(0)));
   bool isCrit = (rand() % 100 < critRate);
   if (isCrit) {
     damage *= 2;
