@@ -247,7 +247,9 @@ CMakeFiles/RPG_Game.dir/main.cpp.obj: D:/RPG-Project/main.cpp \
   D:/RPG-Project/character/character.h \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed/limits.h \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed/syslimits.h \
+  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/algorithm \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/backward/binders.h \
+  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/algorithmfwd.h \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/alloc_traits.h \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/allocator.h \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/basic_ios.h \
@@ -282,22 +284,29 @@ CMakeFiles/RPG_Game.dir/main.cpp.obj: D:/RPG-Project/main.cpp \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/ptr_traits.h \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/range_access.h \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/std_abs.h \
+  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_algo.h \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_algobase.h \
+  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_construct.h \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_function.h \
+  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_heap.h \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_iterator.h \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_iterator_base_funcs.h \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_iterator_base_types.h \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_pair.h \
+  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_relops.h \
+  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_tempbuf.h \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/streambuf.tcc \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/streambuf_iterator.h \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/string_view.tcc \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stringfwd.h \
+  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/uniform_int_dist.h \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/cctype \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/cerrno \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/clocale \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/cstdint \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/cstdio \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/cstdlib \
+  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/ctime \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/cwchar \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/cwctype \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/debug/assertions.h \
@@ -325,6 +334,7 @@ CMakeFiles/RPG_Game.dir/main.cpp.obj: D:/RPG-Project/main.cpp \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/system_error \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/type_traits \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/typeinfo \
+  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/utility \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/x86_64-w64-mingw32/bits/atomic_word.h \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/x86_64-w64-mingw32/bits/c++allocator.h \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/x86_64-w64-mingw32/bits/c++config.h \
@@ -345,6 +355,7 @@ CMakeFiles/RPG_Game.dir/main.cpp.obj: D:/RPG-Project/main.cpp \
   D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/_mingw_print_push.h \
   D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/_mingw_secapi.h \
   D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/_mingw_stat64.h \
+  D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/_timeval.h \
   D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/corecrt_startup.h \
   D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/crtdefs.h \
   D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/ctype.h \
@@ -356,6 +367,7 @@ CMakeFiles/RPG_Game.dir/main.cpp.obj: D:/RPG-Project/main.cpp \
   D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/pthread.h \
   D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/pthread_compat.h \
   D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/pthread_signal.h \
+  D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/pthread_time.h \
   D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/pthread_unistd.h \
   D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/sdks/_mingw_ddk.h \
   D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/sdks/_mingw_directx.h \
@@ -371,6 +383,7 @@ CMakeFiles/RPG_Game.dir/main.cpp.obj: D:/RPG-Project/main.cpp \
   D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/swprintf.inl \
   D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/sys/timeb.h \
   D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/sys/types.h \
+  D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/time.h \
   D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/vadefs.h \
   D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/wchar.h \
   D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/wctype.h \
@@ -525,6 +538,8 @@ D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed/limits.h:
 
 D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/exception_defines.h:
 
+D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/ctime:
+
 D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed/syslimits.h:
 
 D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/basic_ios.h:
@@ -673,6 +688,8 @@ D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/stdexcept:
 
 D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/stdlib.h:
 
+D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/time.h:
+
 D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/streambuf:
 
 D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/string:
@@ -761,6 +778,8 @@ D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/stdio.h:
 
 D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/swprintf.inl:
 
+D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/algorithmfwd.h:
+
 D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/sys/timeb.h:
 
 D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/sys/types.h:
@@ -778,6 +797,26 @@ D:/RPG-Project/enemy/enemy.cpp:
 D:/RPG-Project/enemy/enemy.h:
 
 D:/RPG-Project/main.cpp:
+
+D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/algorithm:
+
+D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_algo.h:
+
+D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_construct.h:
+
+D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_heap.h:
+
+D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_relops.h:
+
+D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_tempbuf.h:
+
+D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/uniform_int_dist.h:
+
+D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/utility:
+
+D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/_timeval.h:
+
+D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/pthread_time.h:
 
 D:/RPG-Project/player/player.h:
 

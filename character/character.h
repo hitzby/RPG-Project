@@ -1,27 +1,26 @@
 #pragma once
 #include <string>
-class Character
-{
+class Character {
 private:
-    std::string name;
+  std::string name;
 
 protected:
-    int hp;
-    int attack;
-    int mp;
-    int max_hp;
-    int max_mp;
+  int hp;
+  int attack;
+  int mp;
+  int max_hp;
+  int max_mp;
 
 public:
-    Character(std::string name, int hp, int attack, int mp);
-    std::string getname() const;
-    int gethp() const;
-    int getattack() const;
-    int getmp() const;
-    void takedamage(int damage);
-    void attacktarget(Character &target);
-    bool isalive() const;
-    int getmaxhp() const;
-    int getmaxmp() const;
-    virtual ~Character(){}
+  Character(std::string name, int hp, int attack, int mp);
+  std::string getname() const;
+  int gethp() const;
+  int getattack() const;
+  int getmp() const;
+  void takedamage(int damage);
+  void attacktarget(Character &target);
+  bool isalive() const;
+  int getmaxhp() const;
+  int getmaxmp() const;
+  virtual ~Character() {}
 };
