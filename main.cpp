@@ -12,7 +12,7 @@ using namespace std;
 enemy generateEnemy(int floor) {
   int hp = 20 + floor * 5;
   int attack = 4 + floor * 1;
-  int exp_reward = 10 + floor * 5;
+  int exp_reward = 10 + floor * 100;
   int coin_reward = 5 + floor * 2;
   int level = floor;
 
@@ -112,7 +112,11 @@ int main() {
           if (post_battle_choice == 1) {
             continue; // 继续内层循环，生成新怪
           } else if (post_battle_choice == 2) {
-            cout << "Heading to next floor..." << endl;
+            if (floor != 100) {
+              cout << "Heading to next floor..." << endl;
+            } else {
+              cout << "congratulations!" << endl;
+            }
             floor++;
             break; // 跳出内层循环，进入下一层
           } else if (post_battle_choice == 4) {
