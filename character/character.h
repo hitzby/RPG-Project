@@ -18,7 +18,7 @@ public:
   int getattack() const;
   int getmp() const;
   void takedamage(int damage);
-  void attacktarget(Character &target);
+  virtual void attacktarget(Character &target);
   bool isalive() const;
   int getmaxhp() const;
   int getmaxmp() const;
