@@ -1,6 +1,5 @@
 #pragma once
 #include "../character/character.h"
-#include <iostream>
 class enemy : public Character
 {
 private:

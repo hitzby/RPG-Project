@@ -1,3 +1,4 @@
+#include <iostream>
 #include "character.h"
 using namespace std;
 Character::Character(string name, int hp, int attack, int mp)

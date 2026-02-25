@@ -1,3 +1,4 @@
+#include <iostream>
 #include "player.h"
 using namespace std;
 player::player(std::string name, int hp, int attack, int mp, int level, int exp, int coin)
