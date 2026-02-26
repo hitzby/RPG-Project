@@ -1,5 +1,6 @@
 #include "enemy/enemy.h"
 #include "item/item.h"
+#include "player.h"
 #include "player/jobs.h"
 #include <algorithm>
 #include <cstdlib>
@@ -49,6 +50,28 @@ Item generateRandomItem(int floor) {
     return Item(name, floor, Armor, value, floor * 2, floor * 10, 1);
   }
   return Item("Normal Potion", 1, Potion, 1, 0, 0, 1);
+}
+// 引入商店
+void showshop(player &hero, int floor, vector<Item> &shopItems) {
+  cout << "\n========================================" << endl;
+  cout << "欢迎来到商店！当前楼层为：" << floor << endl;
+  for (int i = 0; i < 5; i++) {
+    shopItems.push_back(generateRandomItem(floor));
+  }
+  for (int i = 0; i < shopItems.size(); i++) {
+    cout << i + 1 << "." << shopItems[i].getName() << " - 类型: "
+         << (shopItems[i].getType() == Weapon
+                 ? "武器"
+                 : (shopItems[i].getType() == Armor ? "防具" : "药水"))
+         << endl
+         << " - 价值: " << shopItems[i].getValue()
+         << " - 耐久度: " << shopItems[i].getDurability() << endl
+         << " - 价格: " << shopItems[i].getPrice() << "- 数量："
+         << shopItems[i].getQuantity() << endl
+         << " - 等级需求: " << shopItems[i].getLevelRequirement() << endl
+         << "你的金币为：" << hero.getcoin() << endl
+         << "=========================================" << endl;
+  }
 }
 // 战斗逻辑
 bool battle(player &hero, enemy &monster) {
@@ -155,9 +178,10 @@ int main() {
           // === 赢了 ===
           cout << "\nWhat do you want to do?" << endl;
         post_battle_decision:
-          cout << "[1] Grind (Stay here)  [2] Next Floor  [3] Quit\n"
-               << "[4] Check Stats  [5] Show Backpack  [6] Show Equipped Items"
-               << endl;
+          cout
+              << "[1] Grind (Stay here)  [2] Next Floor  [3] Quit\n"
+              << "[4] Check Stats  [5] Show Backpack  [6] Show Equipped Items\n"
+              << "[7] Visit Shop" << endl;
 
           int post_battle_choice;
           cin >> post_battle_choice;
@@ -214,12 +238,67 @@ int main() {
           } else if (post_battle_choice == 3) {
             cout << "See you next time!" << endl;
             return 0;
+          } else if (post_battle_choice == 7) {
+            vector<Item> shopItems;
+            showshop(*ptr, floor, shopItems);
+            cout << "What do you want to do next?" << endl;
+            cout << "[1] buy item [2] nothing" << endl;
+            int shop_choice;
+            cin >> shop_choice;
+            if (shop_choice == 1) {
+              bool bought = true;
+              while (bought) {
+                if (shopItems.empty()) {
+                  cout << "The shop is out of items! Come back later." << endl;
+                  cout << "Do you want to refresh the shop inventory? [1] Yes "
+                          "[2] No"
+                       << endl;
+                  int refresh_choice;
+                  cin >> refresh_choice;
+                  if (refresh_choice == 1) {
+                    showshop(*ptr, floor, shopItems);
+                  } else {
+                    cout << "Back to previous menu." << endl;
+                    break;
+                  }
+                }
+                cout << "Enter the index of the item you want to buy: " << endl;
+                int buy_index;
+                cin >> buy_index;
+                if (buy_index >= 1 && buy_index <= 5) {
+                  Item item = shopItems[buy_index - 1]; // 获取商店中的物品
+                  if (ptr->getcoin() >= item.getPrice()) {
+                    ptr->costcoin(item.getPrice());
+                    ptr->addItem(item);
+                    shopItems.erase(shopItems.begin() + buy_index -
+                                    1); // 从商店中移除
+                    cout << "You bought " << item.getName() << " for "
+                         << item.getPrice() << " coins!" << endl;
+                  } else {
+                    cout << "You don't have enough coins to buy this item!"
+                         << endl;
+                  }
+                } else {
+                  cout << "Invalid item index!" << endl;
+                }
+                cout << "Do you want to buy another item? [1] Yes [2] No"
+                     << endl;
+                int buy_again;
+                cin >> buy_again;
+                if (buy_again != 1) {
+                  bought = false;
+                }
+              }
+              shopItems.clear();
+            }
+            goto post_battle_decision;
           }
         } else {
           // === 输了 ===
           if (ptr->getcoin() == 0) {
             if (floor <= 10 && ptr->getfreerevives() != 0) {
-              cout << "Although you don't have any coins, you can still revive "
+              cout << "Although you don't have any coins, you can still "
+                      "revive "
                       "at Floor 1!"
                    << endl;
               floor = 1;
@@ -229,9 +308,9 @@ int main() {
                    << " free revives left." << endl;
               break; // 跳出内层循环，重新加载楼层;
             }
-            cout
-                << "You have no coins to lose,or you have no free revives left!"
-                << endl;
+            cout << "You have no coins to lose,or you have no free revives "
+                    "left!"
+                 << endl;
             cout << "GAME OVER" << endl;
             return 0;
           }

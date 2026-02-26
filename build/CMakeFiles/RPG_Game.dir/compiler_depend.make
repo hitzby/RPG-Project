@@ -354,6 +354,7 @@ CMakeFiles/RPG_Game.dir/item/item.cpp.obj: D:/RPG-Project/item/item.cpp \
 
 CMakeFiles/RPG_Game.dir/main.cpp.obj: D:/RPG-Project/main.cpp \
   D:/RPG-Project/character/character.h \
+  D:/RPG-Project/player/player.h \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed/limits.h \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed/syslimits.h \
   D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/algorithm \
@@ -520,8 +521,7 @@ CMakeFiles/RPG_Game.dir/main.cpp.obj: D:/RPG-Project/main.cpp \
   D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/wctype.h \
   D:/RPG-Project/enemy/enemy.h \
   D:/RPG-Project/item/item.h \
-  D:/RPG-Project/player/jobs.h \
-  D:/RPG-Project/player/player.h
+  D:/RPG-Project/player/jobs.h
 
 CMakeFiles/RPG_Game.dir/player/jobs.cpp.obj: D:/RPG-Project/player/jobs.cpp \
   D:/RPG-Project/character/character.h \
@@ -1097,6 +1097,10 @@ D:/RPG-Project/enemy/enemy.h:
 
 D:/RPG-Project/main.cpp:
 
+D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_bvector.h:
+
+D:/RPG-Project/player/player.h:
+
 D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/algorithm:
 
 D:/RPG-Project/player/jobs.h:
@@ -1116,10 +1120,6 @@ D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/shared_
 D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/shared_ptr_base.h:
 
 D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_algo.h:
-
-D:/RPG-Project/player/player.h:
-
-D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_bvector.h:
 
 D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_construct.h:
 
