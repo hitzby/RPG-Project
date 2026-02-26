@@ -21,9 +21,8 @@ void player::resetFreeRevive() { free_revives = 3; }
 void player::gainexp(int amount) {
   this->exp += amount;
   cout << getname() << "gain" << amount << "points of exp!" << endl;
-  // 改成 level * 50，升级速度提升一倍！
-  while (this->exp >= level * 50) {
-    exp -= level * 50;
+  while (this->exp >= level * 100) {
+    exp -= level * 100;
     levelup();
   }
 }
@@ -77,4 +76,202 @@ void player::attacktarget(Character &target) {
   cout << getname() << " attacks " << target.getname() << " for " << damage
        << " damage!" << endl;
   target.takedamage(damage);
+  // 处理武器耐久（从后向前遍历）
+  for (int i = equipments.size() - 1; i >= 0; --i) {
+    auto &item = equipments[i];
+    if (item.getType() == Weapon) {
+      item.setDurability(item.getDurability() - 1);
+      if (item.getDurability() <= 0) {
+        cout << "【装备破损】" << item.getName() << "已破损，攻击力减少"
+             << item.getValue() << "点！" << endl;
+        attack -= item.getValue();
+        equipments.erase(equipments.begin() + i);
+      }
+    }
+  }
+}
+void player::addItem(const Item &item) {
+  for (auto &existing : backpack) {
+    if (existing.getName() == item.getName() &&
+        existing.getLevelRequirement() == item.getLevelRequirement() &&
+        existing.getType() == item.getType() &&
+        existing.getValue() == item.getValue() &&
+        existing.getDurability() == item.getDurability() &&
+        existing.getPrice() == item.getPrice()) {
+      existing.setQuantity(existing.getQuantity() + item.getQuantity());
+      return;
+    }
+  }
+  backpack.push_back(item);
+}
+void player::printBackpack() const {
+  if (backpack.empty()) {
+    cout << "背包空空如也！" << endl;
+    return;
+  }
+  cout << "=== " << getname() << "的背包 ===" << endl;
+  for (int i = 0; i < backpack.size(); i++) {
+    const Item &item = backpack[i];
+    cout << i + 1 << ". " << item.getName();
+    cout << " x" << item.getQuantity();          // 药水堆叠数 {
+    cout << " 耐久度: " << item.getDurability(); // 装备耐久
+
+    cout << "\n   类型: "
+         << (item.getType() == Weapon  ? "武器"
+             : item.getType() == Armor ? "防具"
+                                       : "药水")
+         << "\n   价值: " << item.getValue() << "\n   价格: " << item.getPrice()
+         << "\n   等级需求: " << item.getLevelRequirement() << endl;
+    cout << "-----------------------------\n";
+  }
+}
+void player::useItem(int index) {
+  if (index < 1 || index > backpack.size()) {
+    cout << "无效的物品索引！" << endl;
+    return;
+  }
+  Item &item = backpack[index - 1];
+  if (item.getType() == Potion) {
+    hp += item.getValue();
+    if (hp > max_hp)
+      hp = max_hp; // 别加爆了
+    cout << getname() << "使用了" << item.getName() << "，恢复了"
+         << item.getValue() << " HP!" << endl;
+    item.setQuantity(item.getQuantity() - 1);
+    if (item.getQuantity() <= 0) {
+      backpack.erase(backpack.begin() + index - 1);
+    }
+  } else {
+    cout << "只能使用药水类物品！" << endl;
+  }
+}
+void player::equipItem(int index) {
+  if (index < 1 || index > (int)backpack.size()) {
+    cout << "无效的物品索引！" << endl;
+    return;
+  }
+  Item &item = backpack[index - 1];
+  if (item.getLevelRequirement() > level) {
+    cout << "等级不足，无法装备" << item.getName() << "！" << endl;
+    return;
+  }
+  if (item.getType() == Weapon || item.getType() == Armor) {
+    // 先卸下同类型装备（从后向前遍历）
+    for (int i = equipments.size() - 1; i >= 0; --i) {
+      if (equipments[i].getType() == item.getType()) {
+        cout << "自动卸下 " << equipments[i].getName() << endl;
+        if (equipments[i].getType() == Weapon) {
+          attack -= equipments[i].getValue();
+        } else {
+          max_hp -= equipments[i].getValue();
+          if (hp > max_hp)
+            hp = max_hp;
+        }
+        bool merged = false;
+        for (auto &existing : backpack) {
+          if (existing.getName() == equipments[i].getName() &&
+              existing.getLevelRequirement() ==
+                  equipments[i].getLevelRequirement() &&
+              existing.getType() == equipments[i].getType() &&
+              existing.getValue() == equipments[i].getValue() &&
+              existing.getDurability() == equipments[i].getDurability() &&
+              existing.getPrice() == equipments[i].getPrice()) {
+            existing.setQuantity(existing.getQuantity() + 1);
+            merged = true;
+            break;
+          }
+        }
+        if (!merged) {
+          backpack.push_back(equipments[i]); // 旧装备放回背包
+        }
+        equipments.erase(equipments.begin() + i);
+        break;
+      }
+    }
+    // 装备新物品
+    cout << getname() << "装备了" << item.getName() << "！" << endl;
+    if (item.getType() == Weapon) {
+      attack += item.getValue();
+    } else {
+      max_hp += item.getValue();
+      hp += item.getValue();
+    }
+    equipments.push_back(item);
+
+    // 从背包中移除（减少数量）
+    item.setQuantity(item.getQuantity() - 1);
+    if (item.getQuantity() <= 0) {
+      backpack.erase(backpack.begin() + index - 1);
+    }
+  } else {
+    cout << "只能装备武器或防具！" << endl;
+  }
+}
+void player::unequipItem(int index) {
+  if (index < 1 || index > equipments.size()) {
+    cout << "无效的装备索引！" << endl;
+    return;
+  }
+  Item &item = equipments[index - 1];
+  cout << getname() << "卸下了" << item.getName() << "！" << endl;
+  if (item.getType() == Weapon) {
+    attack -= item.getValue();
+  } else if (item.getType() == Armor) {
+    max_hp -= item.getValue();
+    if (hp > max_hp)
+      hp = max_hp; // 卸下防具后如果当前 HP 超过最大 HP 就调整回来
+  }
+  for (auto &existing : backpack) {
+    if (existing.getName() == item.getName() &&
+        existing.getLevelRequirement() == item.getLevelRequirement() &&
+        existing.getType() == item.getType() &&
+        existing.getValue() == item.getValue() &&
+        existing.getDurability() == item.getDurability() &&
+        existing.getPrice() == item.getPrice()) {
+      existing.setQuantity(existing.getQuantity() + 1);
+      equipments.erase(equipments.begin() + index - 1);
+      return;
+    }
+  }
+  backpack.push_back(item); // 卸下的装备放回背包
+  equipments.erase(equipments.begin() + index - 1);
+  return;
+}
+void player::showEquippedItems() const {
+  if (equipments.empty()) {
+    cout << "没有装备任何物品！" << endl;
+    return;
+  }
+  cout << "=== " << getname() << "的装备 ===" << endl;
+  for (const auto &item : equipments) {
+    cout << "- " << item.getName() << " (";
+    if (item.getType() == Weapon) {
+      cout << "武器, 攻击+" << item.getValue();
+    } else if (item.getType() == Armor) {
+      cout << "防具, HP+" << item.getValue();
+    }
+    cout << ")" << endl;
+  }
+}
+void player::takedamage(int damage) {
+  hp -= damage;
+  if (hp < 0)
+    hp = 0;
+  // 处理防具耐久（从后向前遍历）
+  for (int i = equipments.size() - 1; i >= 0; --i) {
+    auto &item = equipments[i];
+    if (item.getType() == Armor) {
+      item.setDurability(item.getDurability() - 1);
+      if (item.getDurability() <= 0) {
+        cout << "【装备破损】" << item.getName() << "已破损，HP减少"
+             << item.getValue() << "点！" << endl;
+        max_hp -= item.getValue();
+        if (hp > max_hp)
+          hp = max_hp;
+        equipments.erase(equipments.begin() + i);
+      }
+    }
+  }
+  cout << getname() << " takes " << damage << " damage! (HP: " << hp << "/"
+       << max_hp << ")" << endl;
 }

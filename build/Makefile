@@ -176,6 +176,30 @@ enemy/enemy.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\RPG_Game.dir\build.make CMakeFiles/RPG_Game.dir/enemy/enemy.cpp.s
 .PHONY : enemy/enemy.cpp.s
 
+item/item.obj: item/item.cpp.obj
+.PHONY : item/item.obj
+
+# target to build an object file
+item/item.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RPG_Game.dir\build.make CMakeFiles/RPG_Game.dir/item/item.cpp.obj
+.PHONY : item/item.cpp.obj
+
+item/item.i: item/item.cpp.i
+.PHONY : item/item.i
+
+# target to preprocess a source file
+item/item.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RPG_Game.dir\build.make CMakeFiles/RPG_Game.dir/item/item.cpp.i
+.PHONY : item/item.cpp.i
+
+item/item.s: item/item.cpp.s
+.PHONY : item/item.s
+
+# target to generate assembly for a file
+item/item.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RPG_Game.dir\build.make CMakeFiles/RPG_Game.dir/item/item.cpp.s
+.PHONY : item/item.cpp.s
+
 main.obj: main.cpp.obj
 .PHONY : main.obj
 
@@ -263,6 +287,9 @@ help:
 	@echo ... enemy/enemy.obj
 	@echo ... enemy/enemy.i
 	@echo ... enemy/enemy.s
+	@echo ... item/item.obj
+	@echo ... item/item.i
+	@echo ... item/item.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

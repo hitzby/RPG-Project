@@ -101,11 +101,26 @@ CMakeFiles/RPG_Game.dir/enemy/enemy.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/RPG_Game.dir/enemy/enemy.cpp.s"
 	D:\vscodemingw\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\RPG-Project\enemy\enemy.cpp -o CMakeFiles\RPG_Game.dir\enemy\enemy.cpp.s
 
+CMakeFiles/RPG_Game.dir/item/item.cpp.obj: CMakeFiles/RPG_Game.dir/flags.make
+CMakeFiles/RPG_Game.dir/item/item.cpp.obj: CMakeFiles/RPG_Game.dir/includes_CXX.rsp
+CMakeFiles/RPG_Game.dir/item/item.cpp.obj: D:/RPG-Project/item/item.cpp
+CMakeFiles/RPG_Game.dir/item/item.cpp.obj: CMakeFiles/RPG_Game.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\RPG-Project\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/RPG_Game.dir/item/item.cpp.obj"
+	D:\vscodemingw\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RPG_Game.dir/item/item.cpp.obj -MF CMakeFiles\RPG_Game.dir\item\item.cpp.obj.d -o CMakeFiles\RPG_Game.dir\item\item.cpp.obj -c D:\RPG-Project\item\item.cpp
+
+CMakeFiles/RPG_Game.dir/item/item.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/RPG_Game.dir/item/item.cpp.i"
+	D:\vscodemingw\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\RPG-Project\item\item.cpp > CMakeFiles\RPG_Game.dir\item\item.cpp.i
+
+CMakeFiles/RPG_Game.dir/item/item.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/RPG_Game.dir/item/item.cpp.s"
+	D:\vscodemingw\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\RPG-Project\item\item.cpp -o CMakeFiles\RPG_Game.dir\item\item.cpp.s
+
 CMakeFiles/RPG_Game.dir/main.cpp.obj: CMakeFiles/RPG_Game.dir/flags.make
 CMakeFiles/RPG_Game.dir/main.cpp.obj: CMakeFiles/RPG_Game.dir/includes_CXX.rsp
 CMakeFiles/RPG_Game.dir/main.cpp.obj: D:/RPG-Project/main.cpp
 CMakeFiles/RPG_Game.dir/main.cpp.obj: CMakeFiles/RPG_Game.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\RPG-Project\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/RPG_Game.dir/main.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\RPG-Project\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/RPG_Game.dir/main.cpp.obj"
 	D:\vscodemingw\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RPG_Game.dir/main.cpp.obj -MF CMakeFiles\RPG_Game.dir\main.cpp.obj.d -o CMakeFiles\RPG_Game.dir\main.cpp.obj -c D:\RPG-Project\main.cpp
 
 CMakeFiles/RPG_Game.dir/main.cpp.i: cmake_force
@@ -120,7 +135,7 @@ CMakeFiles/RPG_Game.dir/player/jobs.cpp.obj: CMakeFiles/RPG_Game.dir/flags.make
 CMakeFiles/RPG_Game.dir/player/jobs.cpp.obj: CMakeFiles/RPG_Game.dir/includes_CXX.rsp
 CMakeFiles/RPG_Game.dir/player/jobs.cpp.obj: D:/RPG-Project/player/jobs.cpp
 CMakeFiles/RPG_Game.dir/player/jobs.cpp.obj: CMakeFiles/RPG_Game.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\RPG-Project\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/RPG_Game.dir/player/jobs.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\RPG-Project\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/RPG_Game.dir/player/jobs.cpp.obj"
 	D:\vscodemingw\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RPG_Game.dir/player/jobs.cpp.obj -MF CMakeFiles\RPG_Game.dir\player\jobs.cpp.obj.d -o CMakeFiles\RPG_Game.dir\player\jobs.cpp.obj -c D:\RPG-Project\player\jobs.cpp
 
 CMakeFiles/RPG_Game.dir/player/jobs.cpp.i: cmake_force
@@ -135,7 +150,7 @@ CMakeFiles/RPG_Game.dir/player/player.cpp.obj: CMakeFiles/RPG_Game.dir/flags.mak
 CMakeFiles/RPG_Game.dir/player/player.cpp.obj: CMakeFiles/RPG_Game.dir/includes_CXX.rsp
 CMakeFiles/RPG_Game.dir/player/player.cpp.obj: D:/RPG-Project/player/player.cpp
 CMakeFiles/RPG_Game.dir/player/player.cpp.obj: CMakeFiles/RPG_Game.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\RPG-Project\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/RPG_Game.dir/player/player.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\RPG-Project\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/RPG_Game.dir/player/player.cpp.obj"
 	D:\vscodemingw\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RPG_Game.dir/player/player.cpp.obj -MF CMakeFiles\RPG_Game.dir\player\player.cpp.obj.d -o CMakeFiles\RPG_Game.dir\player\player.cpp.obj -c D:\RPG-Project\player\player.cpp
 
 CMakeFiles/RPG_Game.dir/player/player.cpp.i: cmake_force
@@ -150,6 +165,7 @@ CMakeFiles/RPG_Game.dir/player/player.cpp.s: cmake_force
 RPG_Game_OBJECTS = \
 "CMakeFiles/RPG_Game.dir/character/character.cpp.obj" \
 "CMakeFiles/RPG_Game.dir/enemy/enemy.cpp.obj" \
+"CMakeFiles/RPG_Game.dir/item/item.cpp.obj" \
 "CMakeFiles/RPG_Game.dir/main.cpp.obj" \
 "CMakeFiles/RPG_Game.dir/player/jobs.cpp.obj" \
 "CMakeFiles/RPG_Game.dir/player/player.cpp.obj"
@@ -159,6 +175,7 @@ RPG_Game_EXTERNAL_OBJECTS =
 
 RPG_Game.exe: CMakeFiles/RPG_Game.dir/character/character.cpp.obj
 RPG_Game.exe: CMakeFiles/RPG_Game.dir/enemy/enemy.cpp.obj
+RPG_Game.exe: CMakeFiles/RPG_Game.dir/item/item.cpp.obj
 RPG_Game.exe: CMakeFiles/RPG_Game.dir/main.cpp.obj
 RPG_Game.exe: CMakeFiles/RPG_Game.dir/player/jobs.cpp.obj
 RPG_Game.exe: CMakeFiles/RPG_Game.dir/player/player.cpp.obj
@@ -166,7 +183,7 @@ RPG_Game.exe: CMakeFiles/RPG_Game.dir/build.make
 RPG_Game.exe: CMakeFiles/RPG_Game.dir/linkLibs.rsp
 RPG_Game.exe: CMakeFiles/RPG_Game.dir/objects1.rsp
 RPG_Game.exe: CMakeFiles/RPG_Game.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\RPG-Project\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable RPG_Game.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\RPG-Project\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable RPG_Game.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\RPG_Game.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

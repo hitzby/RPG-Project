@@ -14,11 +14,12 @@ file(GLOB_RECURSE SOURCES
     "player/*.cpp"
     "enemy/*.cpp"
     jobs/*.cpp
+    item/*.cpp
 )
 
 # 告诉编译器头文件的搜索路径
 # 这样你在写 #include 时，编译器能更容易找到它们
-include_directories(character player enemy jobs)
+include_directories(character player enemy jobs item)
 
 # 生成可执行文件
 add_executable(RPG_Game ${SOURCES})

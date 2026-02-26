@@ -1,5 +1,8 @@
 #pragma once
 #include "../character/character.h"
+#include "../item/item.h"
+#include <vector>
+
 class player : public Character {
 protected:
   int level;
@@ -7,6 +10,8 @@ protected:
   int coin;
   int free_revives;
   int critRate;
+  std::vector<Item> backpack;
+  std::vector<Item> equipments;
 
 public:
   player(std::string name, int hp, int attack, int mp, int level, int exp,
@@ -25,7 +30,14 @@ public:
   void decreaserevives();
   void resetFreeRevive();
   void printstats() const;
-  void heal(int amount);                                 // 战后回血
-  int getcritRate() const;                               // 获取暴击率
-  virtual void attacktarget(Character &target) override; // 重写攻击函数
+  void heal(int amount);
+  int getcritRate() const;
+  virtual void attacktarget(Character &target) override;
+  virtual void takedamage(int damage) override;
+  void addItem(const Item &item);
+  void printBackpack() const;
+  void useItem(int index);
+  void equipItem(int index);
+  void unequipItem(int index);
+  void showEquippedItems() const;
 };

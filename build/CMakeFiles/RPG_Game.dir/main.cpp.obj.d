@@ -106,15 +106,21 @@ CMakeFiles/RPG_Game.dir/main.cpp.obj: D:\RPG-Project\main.cpp \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/cstdio \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/cerrno \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/basic_string.tcc \
- D:\RPG-Project\player/jobs.h D:\RPG-Project\player/player.h \
- D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/algorithm \
+ D:\RPG-Project\item/item.h D:\RPG-Project\player/jobs.h \
+ D:\RPG-Project\player/player.h \
+ D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/vector \
+ D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_construct.h \
+ D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_uninitialized.h \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/utility \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_relops.h \
+ D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_vector.h \
+ D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_bvector.h \
+ D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/vector.tcc \
+ D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/algorithm \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_algo.h \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/algorithmfwd.h \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_heap.h \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_tempbuf.h \
- D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_construct.h \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/uniform_int_dist.h \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/ctime \
  D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/time.h \
@@ -144,7 +150,6 @@ CMakeFiles/RPG_Game.dir/main.cpp.obj: D:\RPG-Project\main.cpp \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/istream \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/istream.tcc \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/memory \
- D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_uninitialized.h \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_raw_storage_iter.h \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/ext/concurrence.h \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/uses_allocator.h \

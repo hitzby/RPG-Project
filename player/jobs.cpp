@@ -1,4 +1,5 @@
 #include "jobs.h"
+#include "player.h"
 #include <cstdlib>
 #include <iostream>
 
@@ -39,5 +40,5 @@ void Assassin::takedamage(int damage) {
     return; // 闪避成功，不受伤害
   }
   // 没有闪避成功，正常扣血
-  Character::takedamage(damage);
+  player::takedamage(damage);
 }

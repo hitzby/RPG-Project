@@ -13,6 +13,12 @@
 },
 {
   "directory": "D:/RPG-Project/build",
+  "command": "D:\\vscodemingw\\mingw64\\bin\\g++.exe  @CMakeFiles/RPG_Game.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\RPG_Game.dir\\item\\item.cpp.obj -c D:\\RPG-Project\\item\\item.cpp",
+  "file": "D:/RPG-Project/item/item.cpp",
+  "output": "CMakeFiles/RPG_Game.dir/item/item.cpp.obj"
+},
+{
+  "directory": "D:/RPG-Project/build",
   "command": "D:\\vscodemingw\\mingw64\\bin\\g++.exe  @CMakeFiles/RPG_Game.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\RPG_Game.dir\\main.cpp.obj -c D:\\RPG-Project\\main.cpp",
   "file": "D:/RPG-Project/main.cpp",
   "output": "CMakeFiles/RPG_Game.dir/main.cpp.obj"
