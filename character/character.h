@@ -17,10 +17,10 @@ public:
   int gethp() const;
   int getattack() const;
   int getmp() const;
-  void takedamage(int damage);
+  virtual void takedamage(int damage);
   virtual void attacktarget(Character &target);
   bool isalive() const;
   int getmaxhp() const;
   int getmaxmp() const;
-  virtual ~Character() {}
+  virtual ~Character() = default;
 };

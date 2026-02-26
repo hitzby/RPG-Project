@@ -11,6 +11,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "D:/RPG-Project/character/character.cpp" "CMakeFiles/RPG_Game.dir/character/character.cpp.obj" "gcc" "CMakeFiles/RPG_Game.dir/character/character.cpp.obj.d"
   "D:/RPG-Project/enemy/enemy.cpp" "CMakeFiles/RPG_Game.dir/enemy/enemy.cpp.obj" "gcc" "CMakeFiles/RPG_Game.dir/enemy/enemy.cpp.obj.d"
   "D:/RPG-Project/main.cpp" "CMakeFiles/RPG_Game.dir/main.cpp.obj" "gcc" "CMakeFiles/RPG_Game.dir/main.cpp.obj.d"
+  "D:/RPG-Project/player/jobs.cpp" "CMakeFiles/RPG_Game.dir/player/jobs.cpp.obj" "gcc" "CMakeFiles/RPG_Game.dir/player/jobs.cpp.obj.d"
   "D:/RPG-Project/player/player.cpp" "CMakeFiles/RPG_Game.dir/player/player.cpp.obj" "gcc" "CMakeFiles/RPG_Game.dir/player/player.cpp.obj.d"
   )
 

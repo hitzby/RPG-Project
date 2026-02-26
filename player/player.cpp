@@ -5,9 +5,9 @@
 
 using namespace std;
 player::player(std::string name, int hp, int attack, int mp, int level, int exp,
-               int coin)
+               int coin, int critRate)
     : Character(name, hp, attack, mp), level(level), exp(exp), coin(coin),
-      free_revives(3), critRate(20) {}
+      free_revives(3), critRate(critRate) {}
 int player::getlevel() const { return level; }
 int player::getexp() const { return exp; }
 int player::getcoin() const { return coin; }
@@ -58,7 +58,8 @@ void player::printstats() const {
   cout << "MP: " << mp << endl;
   cout << "EXP: " << exp << endl;
   cout << "Coins: " << coin << endl;
-  cout << "Free Revives Left: " << free_revives << endl;
+  cout << "Free Revives Left: " << getfreerevives() << endl;
+  cout << "Crit Rate: " << critRate << "%" << endl;
 }
 void player::heal(int amount) {
   hp += amount;

@@ -1,7 +1,7 @@
 #pragma once
 #include "../character/character.h"
 class player : public Character {
-private:
+protected:
   int level;
   int exp;
   int coin;
@@ -10,13 +10,15 @@ private:
 
 public:
   player(std::string name, int hp, int attack, int mp, int level, int exp,
-         int coin);
+         int coin, int critRate);
+  virtual ~player() = default;
   int getlevel() const;
   int getexp() const;
   int getcoin() const;
   void gainexp(int exp);
   void gaincoin(int coin);
-  void levelup();
+  virtual void levelup();
+  virtual std::string getjob() const = 0;
   void costcoin(int amount);
   void revive();
   int getfreerevives() const;

@@ -1,24 +1,25 @@
 #include "enemy/enemy.h"
-#include "player/player.h"
+#include "player/jobs.h"
 #include <algorithm>
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
+#include <memory>
 #include <string>
 
 using namespace std;
 
 // 怪物生成工厂
 enemy generateEnemy(int floor) {
-  int hp = 20 + floor * 5;
-  int attack = 4 + floor * 1;
+  int hp = 20 + floor * 10;
+  int attack = 4 + floor * 5;
   int exp_reward = 10 + floor * 100;
   int coin_reward = 5 + floor * 2;
   int level = floor;
 
   // Boss 关卡增强
   if (floor % 10 == 0) {
-    hp += 50;
+    hp += 100;
     attack += 10;
     exp_reward += 50;
     coin_reward += 20;
@@ -71,7 +72,28 @@ int main() {
        << endl
        << "fall back one floor" << endl;
   // 初始化：等级设为 1，避免除零或死循环风险
-  player hero("你", 100, 10, 10, 1, 0, 0);
+  cout << "please enter your name: " << endl;
+  string player_name;
+  cin >> player_name;
+  cout << "choose your job: [1] Warrior  [2] Mage  [3] Assassin" << endl;
+  int job_choice;
+  cin >> job_choice;
+  unique_ptr<player> ptr;
+  switch (job_choice) {
+  case 1:
+    ptr = make_unique<Warrior>(player_name);
+    break;
+  case 2:
+    ptr = make_unique<Mage>(player_name);
+    break;
+  case 3:
+    ptr = make_unique<Assassin>(player_name);
+    break;
+  default:
+    cout << "Invalid choice, defaulting to Warrior." << endl;
+    ptr = make_unique<Warrior>(player_name);
+    break;
+  }
 
   int floor = 1;
 
@@ -84,8 +106,8 @@ int main() {
 
       cout << "\n========================================" << endl;
       cout << "Floor: " << floor << endl;
-      cout << "Player: Lv." << hero.getlevel() << " | HP: " << hero.gethp()
-           << " | Coin: " << hero.getcoin() << endl;
+      cout << "Player: Lv." << ptr->getlevel() << " | HP: " << ptr->gethp()
+           << " | Coin: " << ptr->getcoin() << endl;
       cout << "Enemy : Lv." << monster.getlevel()
            << " | HP: " << monster.gethp() << endl;
       cout << "----------------------------------------" << endl;
@@ -96,7 +118,7 @@ int main() {
 
       if (choice == 1) {
         // === 战斗 ===
-        bool result = battle(hero, monster);
+        bool result = battle(*ptr, monster);
 
         if (result) {
           // === 赢了 ===
@@ -120,7 +142,7 @@ int main() {
             floor++;
             break; // 跳出内层循环，进入下一层
           } else if (post_battle_choice == 4) {
-            hero.printstats();
+            ptr->printstats();
             goto post_battle_decision; // 打印完状态后重新选择
           } else {
             cout << "See you next time!" << endl;
@@ -128,15 +150,15 @@ int main() {
           }
         } else {
           // === 输了 ===
-          if (hero.getcoin() == 0) {
-            if (floor <= 10 && hero.getfreerevives() != 0) {
+          if (ptr->getcoin() == 0) {
+            if (floor <= 10 && ptr->getfreerevives() != 0) {
               cout << "Although you don't have any coins, you can still revive "
                       "at Floor 1!"
                    << endl;
               floor = 1;
-              hero.revive();
-              hero.decreaserevives();
-              cout << "Revived! You have " << hero.getfreerevives()
+              ptr->revive();
+              ptr->decreaserevives();
+              cout << "Revived! You have " << ptr->getfreerevives()
                    << " free revives left." << endl;
               break; // 跳出内层循环，重新加载楼层;
             }
@@ -146,7 +168,7 @@ int main() {
             cout << "GAME OVER" << endl;
             return 0;
           }
-          int coin_loss = max(1, hero.getcoin() / 2);
+          int coin_loss = max(1, ptr->getcoin() / 2);
           cout << "\nDo you want to revive? Cost: " << coin_loss << " coins."
                << endl;
           cout << "[1] Revive & Back 1 Floor  [2] Die & Quit" << endl;
@@ -156,10 +178,10 @@ int main() {
 
           if (revive_choice == 1) {
             // 记得在 player 类里实现 revive() 哦！
-            hero.revive();
+            ptr->revive();
             // 如果还没实现，可以用 hero.gainexp(0); 这种临时方法或者 setHp
 
-            hero.costcoin(coin_loss);
+            ptr->costcoin(coin_loss);
             cout << "Revived! Lost " << coin_loss << " coins." << endl;
 
             // 只有在大于1层时才回退，否则在第1层原地复活

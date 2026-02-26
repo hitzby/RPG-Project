@@ -200,6 +200,30 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\RPG_Game.dir\build.make CMakeFiles/RPG_Game.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+player/jobs.obj: player/jobs.cpp.obj
+.PHONY : player/jobs.obj
+
+# target to build an object file
+player/jobs.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RPG_Game.dir\build.make CMakeFiles/RPG_Game.dir/player/jobs.cpp.obj
+.PHONY : player/jobs.cpp.obj
+
+player/jobs.i: player/jobs.cpp.i
+.PHONY : player/jobs.i
+
+# target to preprocess a source file
+player/jobs.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RPG_Game.dir\build.make CMakeFiles/RPG_Game.dir/player/jobs.cpp.i
+.PHONY : player/jobs.cpp.i
+
+player/jobs.s: player/jobs.cpp.s
+.PHONY : player/jobs.s
+
+# target to generate assembly for a file
+player/jobs.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RPG_Game.dir\build.make CMakeFiles/RPG_Game.dir/player/jobs.cpp.s
+.PHONY : player/jobs.cpp.s
+
 player/player.obj: player/player.cpp.obj
 .PHONY : player/player.obj
 
@@ -242,6 +266,9 @@ help:
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
+	@echo ... player/jobs.obj
+	@echo ... player/jobs.i
+	@echo ... player/jobs.s
 	@echo ... player/player.obj
 	@echo ... player/player.i
 	@echo ... player/player.s
