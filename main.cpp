@@ -312,7 +312,7 @@ int main() {
               } else {
                 cout << "You don't have enough coins to refresh the shop!"
                      << endl;
-                goto post_battle_decision;
+                goto post_shop_decision;
               }
               shopItems.clear();
               for (int i = 0; i < 5; i++) {
@@ -323,7 +323,7 @@ int main() {
             } else {
               cout << "Back to previous menu." << endl;
             }
-            goto post_shop_decision;
+            goto post_battle_decision;
           }
         } else {
           // === ÊäÁË ===
