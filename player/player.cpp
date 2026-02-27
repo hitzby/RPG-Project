@@ -114,8 +114,9 @@ void player::printBackpack() const {
   for (int i = 0; i < backpack.size(); i++) {
     const Item &item = backpack[i];
     cout << i + 1 << ". " << item.getName();
-    cout << " x" << item.getQuantity();          // 药水堆叠数 {
-    cout << " 耐久度: " << item.getDurability(); // 装备耐久
+    cout << " x" << item.getQuantity(); // 药水堆叠数 {
+    if (item.getType() == Weapon || item.getType() == Armor)
+      cout << " 耐久度: " << item.getDurability(); // 装备耐久
 
     cout << "\n   类型: "
          << (item.getType() == Weapon  ? "武器"
