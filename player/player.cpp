@@ -1,5 +1,6 @@
 #include "player.h"
 #include "character.h"
+#include "item.h"
 #include <ctime>
 #include <iostream>
 
@@ -150,15 +151,15 @@ void player::equipItem(int index) {
     cout << "无效的物品索引！" << endl;
     return;
   }
-  Item &item = backpack[index - 1];
-  if (item.getLevelRequirement() > level) {
-    cout << "等级不足，无法装备" << item.getName() << "！" << endl;
+  Item itemToEquip = backpack[index - 1];
+  if (itemToEquip.getLevelRequirement() > level) {
+    cout << "等级不足，无法装备" << itemToEquip.getName() << "！" << endl;
     return;
   }
-  if (item.getType() == Weapon || item.getType() == Armor) {
+  if (itemToEquip.getType() == Weapon || itemToEquip.getType() == Armor) {
     // 先卸下同类型装备（从后向前遍历）
     for (int i = equipments.size() - 1; i >= 0; --i) {
-      if (equipments[i].getType() == item.getType()) {
+      if (equipments[i].getType() == itemToEquip.getType()) {
         cout << "自动卸下 " << equipments[i].getName() << endl;
         if (equipments[i].getType() == Weapon) {
           attack -= equipments[i].getValue();
@@ -189,18 +190,20 @@ void player::equipItem(int index) {
       }
     }
     // 装备新物品
-    cout << getname() << "装备了" << item.getName() << "！" << endl;
-    if (item.getType() == Weapon) {
-      attack += item.getValue();
+    cout << getname() << "装备了" << itemToEquip.getName() << "！" << endl;
+    if (itemToEquip.getType() == Weapon) {
+      attack += itemToEquip.getValue();
     } else {
-      max_hp += item.getValue();
-      hp += item.getValue();
+      max_hp += itemToEquip.getValue();
+      hp += itemToEquip.getValue();
     }
-    equipments.push_back(item);
+    itemToEquip.setQuantity(1);
+    equipments.push_back(itemToEquip);
 
     // 从背包中移除（减少数量）
-    item.setQuantity(item.getQuantity() - 1);
-    if (item.getQuantity() <= 0) {
+    Item &backpackItem = backpack[index - 1];
+    backpackItem.setQuantity(backpackItem.getQuantity() - 1);
+    if (backpackItem.getQuantity() <= 0) {
       backpack.erase(backpack.begin() + index - 1);
     }
   } else {
