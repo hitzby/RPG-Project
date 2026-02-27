@@ -11,7 +11,166 @@
 #include <string>
 
 using namespace std;
+void showshop(player &hero, int floor, vector<Item> &shopItems);
+Item generateRandomItem(int floor);
+enum class eventType { NONE, TREASURE, TRAP, MERCHANT, HOT_SPRING, SHRINE };
+eventType generateRandomEvent() {
+  int randNum = rand() % 100;
+  if (randNum < 20) {
+    return eventType::TREASURE; // 20% 概率
+  } else if (randNum < 40) {
+    return eventType::TRAP; // 20% 概率
+  } else if (randNum < 60) {
+    return eventType::MERCHANT; // 20% 概率
+  } else if (randNum < 80) {
+    return eventType::HOT_SPRING; // 20% 概率
+  } else {
+    return eventType::SHRINE; // 20% 概率
+  }
+}
+// 事件生成器
+bool hadEvent(player &hero, int floor) {
+  int eventChance = min(30 + floor, 80);
+  int randomNum = rand() % 100;
+  if (eventChance > randomNum) {
+    eventType event = generateRandomEvent();
+    switch (event) {
+    case eventType::TREASURE: {
+      cout << "你发现了一个宝箱！里面有一些金币和一个随机物品！" << endl;
+      hero.gaincoin(50 + floor * 10);
+      cout << "你获得了" << 50 + floor * 10 << "金币！" << endl;
+      Item randomItem = generateRandomItem(floor);
+      cout << "你获得了一个"
+           << (randomItem.getType() == Potion
+                   ? "药水"
+                   : (randomItem.getType() == Weapon ? "武器" : "防具"))
+           << "：" << randomItem.getName() << "！" << endl;
+      cout << "=========================================" << endl;
+      cout << "价值为" << randomItem.getValue() << "，耐久度为"
+           << randomItem.getDurability() << "，等级需求为"
+           << randomItem.getLevelRequirement() << "！" << endl;
+      cout << "=========================================" << endl;
+      cout << "What do you want to do with this item?" << endl;
+      cout << "[1] add to backpack [2] equip it [3] discard" << endl;
+      int choice;
+      cin >> choice;
+      if (choice == 1) {
+        hero.addItem(randomItem);
+        cout << "物品已添加到背包！" << endl;
+      } else if (choice == 2) {
+        hero.equipItem_T(randomItem);
+        cout << "物品已装备！" << endl;
+      } else if (choice == 3) {
+        cout << "物品被丢弃了。" << endl;
+      }
+    } break;
+    case eventType::TRAP: {
+      cout << "你触发了一个陷阱！受到了一些伤害！" << endl;
+      int trapDamage = 10 + floor * 5;
+      hero.takedamage(trapDamage);
+      cout << "你受到了" << trapDamage << "点伤害！" << endl;
+    } break;
+    case eventType::MERCHANT: {
+      cout << "你遇到了一个商人！他有一些物品出售！" << endl;
+      vector<Item> shopItems;
+      for (int i = 0; i < 5; i++) {
+        shopItems.push_back(generateRandomItem(floor));
+      }
+      showshop(hero, floor, shopItems);
+      cout << "What do you want to do?" << endl;
+      cout << "[1] buy item [2] leave" << endl;
+      int shop_choice;
+      cin >> shop_choice;
+      if (shop_choice == 1) {
+        bool bought = true;
+        while (bought) {
+          if (shopItems.empty()) {
+            cout << "The shop is out of items! Come back later." << endl;
+            break;
+          }
+          cout << "Enter the index of the item you want to buy: " << endl;
+          int buy_index;
+          cin >> buy_index;
+          if (buy_index >= 1 && buy_index <= 5) {
+            Item item = shopItems[buy_index - 1]; // 获取商店中的物品
+            if (hero.getcoin() >= item.getPrice()) {
+              hero.costcoin(item.getPrice());
+              cout << "You bought " << item.getName() << " for "
+                   << item.getPrice() << " coins!" << endl;
+              cout << "What do you want to do with this item?" << endl;
+              cout << "[1] add to backpack [2] equip it [3] discard" << endl;
+              int choice;
+              cin >> choice;
+              if (choice == 1) {
+                hero.addItem(item);
+                cout << "物品已添加到背包！" << endl;
+              } else if (choice == 2) {
+                hero.equipItem_T(item);
+                cout << "物品已装备！" << endl;
+              } else if (choice == 3) {
+                cout << "物品被丢弃了。" << endl;
+              }
+              shopItems.erase(shopItems.begin() + buy_index -
+                              1); // 从商店中移除
 
+            } else {
+              cout << "You don't have enough coins to buy this item!" << endl;
+            }
+          } else {
+            cout << "Invalid item index!" << endl;
+          }
+          showshop(hero, floor, shopItems);
+          cout << "Do you want to buy another item? [1] Yes [2] No" << endl;
+          int buy_again;
+          cin >> buy_again;
+          if (buy_again != 1) {
+            bought = false;
+          }
+        }
+      } else {
+        cout << "You decided to leave the merchant." << endl;
+      }
+    } break;
+    case eventType::HOT_SPRING: {
+      cout << "你发现了一个温泉！休息一下，恢复一些HP和MP！" << endl;
+      int hpRecovery = 20 + floor * 10;
+      int mpRecovery = 10 + floor * 5;
+      hero.sethp(hero.gethp() + hpRecovery);
+      hero.setmp(hero.getmp() + mpRecovery);
+      cout << "你恢复了" << hpRecovery << "点HP和" << mpRecovery << "点MP！"
+           << endl;
+    } break;
+    case eventType::SHRINE: {
+      cout << "你发现了一个神社！许个愿吧！" << endl;
+      int wishOutcome = rand() % 3;
+      if (wishOutcome == 0) {
+        cout << "你的愿望实现了！获得了一些金币和经验！" << endl;
+        hero.gaincoin(100 + floor * 20);
+        hero.gainexp(50 + floor * 10);
+        cout << "你获得了" << 100 + floor * 20 << "金币和" << 50 + floor * 10
+             << "经验！" << endl;
+      } else if (wishOutcome == 1) {
+        cout << "你的愿望被神明拒绝了！失去了一些HP和MP！" << endl;
+        int hpLoss = 15 + floor * 5;
+        int mpLoss = 10 + floor * 5;
+        hero.takedamage(hpLoss);
+        hero.setmp(max(0, hero.getmp() - mpLoss));
+        cout << "你失去了" << hpLoss << "点HP和" << mpLoss << "点MP！" << endl;
+      } else {
+        cout << "你的愿望神明不屑于听(?)" << endl;
+      }
+    } break;
+    case eventType::NONE: {
+      cout << "没有发生任何事件，继续前进..." << endl;
+    } break;
+    }
+  }
+  if (hero.gethp() <= 0) {
+    cout << "你在事件中不幸死亡了..." << endl;
+    return true; // 事件导致死亡，返回 true
+  }
+  return false; // 事件发生但未死亡，返回 false
+}
 // 怪物生成工厂
 enemy generateEnemy(int floor) {
   int hp = 20 + floor * 10;
@@ -180,6 +339,42 @@ int main() {
 
     // 内层循环：本层刷怪
     while (true) {
+      bool eventResult = hadEvent(*ptr, floor);
+      if (eventResult) {
+        // 事件导致死亡，处理复活逻辑
+        if (ptr->getfreerevives() > 0 && floor < 10) {
+          cout << "你有" << ptr->getfreerevives()
+               << "次免费复活机会，是否使用？[1] Yes [2] No" << endl;
+          int revive_choice;
+          cin >> revive_choice;
+          if (revive_choice == 1) {
+            ptr->decreaserevives();
+            ptr->revive();
+            floor = 1; // 继续当前层
+            break;
+          } else {
+            cout << "你选择了不复活，游戏结束。" << endl;
+            return 0;
+          }
+        } else if (ptr->getcoin() >= 20) {
+          cout << "你有足够的金币支付20金币来复活。是否支付？[1] Yes [2] No"
+               << endl;
+          int pay_revive_choice;
+          cin >> pay_revive_choice;
+          if (pay_revive_choice == 1) {
+            ptr->costcoin(20);
+            ptr->revive();
+            floor--; // 继续当前层
+            break;
+          } else {
+            cout << "你选择了不复活，游戏结束。" << endl;
+            return 0;
+          }
+        } else {
+          cout << "没有足够的金币支付复活费用，游戏结束。" << endl;
+          return 0;
+        }
+      }
       enemy monster = generateEnemy(floor);
 
       cout << "\n========================================" << endl;

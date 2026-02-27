@@ -49,4 +49,5 @@ public:
   int getSkillCount() const;
   void reduceallCooldowns();
   void levelUpSkill(int index);
+  void equipItem_T(const Item &item);
 };

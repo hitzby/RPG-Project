@@ -336,3 +336,52 @@ void player::levelUpSkill(int index) {
     cout << "金币不足，无法升级技能！" << endl;
   }
 }
+void player::equipItem_T(const Item &item) {
+  if (item.getType() == Weapon || item.getType() == Armor) {
+    // 先卸下同类型装备（从后向前遍历）
+    for (int i = equipments.size() - 1; i >= 0; --i) {
+      if (equipments[i].getType() == item.getType()) {
+        cout << "自动卸下 " << equipments[i].getName() << endl;
+        if (equipments[i].getType() == Weapon) {
+          attack -= equipments[i].getValue();
+        } else {
+          max_hp -= equipments[i].getValue();
+          if (hp > max_hp)
+            hp = max_hp;
+        }
+        bool merged = false;
+        for (auto &existing : backpack) {
+          if (existing.getName() == equipments[i].getName() &&
+              existing.getLevelRequirement() ==
+                  equipments[i].getLevelRequirement() &&
+              existing.getType() == equipments[i].getType() &&
+              existing.getValue() == equipments[i].getValue() &&
+              existing.getDurability() == equipments[i].getDurability() &&
+              existing.getPrice() == equipments[i].getPrice()) {
+            existing.setQuantity(existing.getQuantity() + 1);
+            merged = true;
+            break;
+          }
+        }
+        if (!merged) {
+          backpack.push_back(equipments[i]); // 旧装备放回背包
+        }
+        equipments.erase(equipments.begin() + i);
+        break;
+      }
+    }
+    // 装备新物品
+    cout << getname() << "装备了" << item.getName() << "！" << endl;
+    if (item.getType() == Weapon) {
+      attack += item.getValue();
+    } else {
+      max_hp += item.getValue();
+      hp += item.getValue();
+    }
+    Item newItem = item;
+    newItem.setQuantity(1);
+    equipments.push_back(newItem);
+  } else {
+    cout << "只能装备武器或防具！" << endl;
+  }
+}

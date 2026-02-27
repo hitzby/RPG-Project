@@ -37,3 +37,12 @@ void Character::setmp(int mp) {
     this->mp = mp;
   }
 }
+void Character::sethp(int hp) {
+  if (hp > max_hp) {
+    this->hp = max_hp;
+  } else if (hp < 0) {
+    this->hp = 0;
+  } else {
+    this->hp = hp;
+  }
+}
