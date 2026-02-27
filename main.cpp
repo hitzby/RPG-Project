@@ -55,9 +55,6 @@ Item generateRandomItem(int floor) {
 void showshop(player &hero, int floor, vector<Item> &shopItems) {
   cout << "\n========================================" << endl;
   cout << "欢迎来到商店！当前楼层为：" << floor << endl;
-  for (int i = 0; i < 5; i++) {
-    shopItems.push_back(generateRandomItem(floor));
-  }
   for (int i = 0; i < shopItems.size(); i++) {
     cout << i + 1 << "." << shopItems[i].getName() << " - 类型: "
          << (shopItems[i].getType() == Weapon
@@ -151,6 +148,10 @@ int main() {
 
   // 修复：只要 <= 100 就继续，去掉 floor > 1 的限制
   while (floor <= 100) {
+    vector<Item> shopItems;
+    for (int i = 0; i < 5; i++) {
+      shopItems.push_back(generateRandomItem(floor));
+    }
 
     // 内层循环：本层刷怪
     while (true) {
@@ -190,6 +191,7 @@ int main() {
             continue; // 继续内层循环，生成新怪
           } else if (post_battle_choice == 2) {
             if (floor != 100) {
+              shopItems.clear();
               cout << "Heading to next floor..." << endl;
             } else {
               cout << "congratulations!" << endl;
@@ -239,10 +241,11 @@ int main() {
             cout << "See you next time!" << endl;
             return 0;
           } else if (post_battle_choice == 7) {
-            vector<Item> shopItems;
+
             showshop(*ptr, floor, shopItems);
+          post_shop_decision:
             cout << "What do you want to do next?" << endl;
-            cout << "[1] buy item [2] nothing" << endl;
+            cout << "[1] buy item [2] nothing [3]refresh shop" << endl;
             int shop_choice;
             cin >> shop_choice;
             if (shop_choice == 1) {
@@ -250,12 +253,24 @@ int main() {
               while (bought) {
                 if (shopItems.empty()) {
                   cout << "The shop is out of items! Come back later." << endl;
-                  cout << "Do you want to refresh the shop inventory? [1] Yes "
+                  cout << "Do you want to pay 20 coins to refresh the shop "
+                          "inventory? [1] Yes "
                           "[2] No"
                        << endl;
                   int refresh_choice;
                   cin >> refresh_choice;
                   if (refresh_choice == 1) {
+                    if (ptr->getcoin() >= 20) {
+                      ptr->costcoin(20);
+                      cout << "Shop inventory refreshed!" << endl;
+                    } else {
+                      cout << "You don't have enough coins to refresh the shop!"
+                           << endl;
+                      break;
+                    }
+                    for (int i = 0; i < 5; i++) {
+                      shopItems.push_back(generateRandomItem(floor));
+                    }
                     showshop(*ptr, floor, shopItems);
                   } else {
                     cout << "Back to previous menu." << endl;
@@ -281,6 +296,7 @@ int main() {
                 } else {
                   cout << "Invalid item index!" << endl;
                 }
+                showshop(*ptr, floor, shopItems);
                 cout << "Do you want to buy another item? [1] Yes [2] No"
                      << endl;
                 int buy_again;
@@ -289,9 +305,25 @@ int main() {
                   bought = false;
                 }
               }
+            } else if (shop_choice == 3) {
+              if (ptr->getcoin() >= 20) {
+                ptr->costcoin(20);
+                cout << "Shop inventory refreshed!" << endl;
+              } else {
+                cout << "You don't have enough coins to refresh the shop!"
+                     << endl;
+                goto post_battle_decision;
+              }
               shopItems.clear();
+              for (int i = 0; i < 5; i++) {
+                shopItems.push_back(generateRandomItem(floor));
+              }
+              showshop(*ptr, floor, shopItems);
+              goto post_shop_decision; // 刷新商店后重新选择
+            } else {
+              cout << "Back to previous menu." << endl;
             }
-            goto post_battle_decision;
+            goto post_shop_decision;
           }
         } else {
           // === 输了 ===
