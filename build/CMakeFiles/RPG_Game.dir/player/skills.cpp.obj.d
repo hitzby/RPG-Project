@@ -1,5 +1,5 @@
-CMakeFiles/RPG_Game.dir/player/player.cpp.obj: \
- D:\RPG-Project\player\player.cpp D:\RPG-Project\player\player.h \
+CMakeFiles/RPG_Game.dir/player/skills.cpp.obj: \
+ D:\RPG-Project\player\skills.cpp D:\RPG-Project\player\skills.h \
  D:/RPG-Project/character/character.h \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/string \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/x86_64-w64-mingw32/bits/c++config.h \
@@ -107,7 +107,7 @@ CMakeFiles/RPG_Game.dir/player/player.cpp.obj: \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/cstdio \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/cerrno \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/basic_string.tcc \
- D:/RPG-Project/item/item.h \
+ D:\RPG-Project\player\player.h D:/RPG-Project/item/item.h \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/memory \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_construct.h \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_uninitialized.h \
@@ -135,11 +135,6 @@ CMakeFiles/RPG_Game.dir/player/player.cpp.obj: \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_vector.h \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_bvector.h \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/vector.tcc \
- D:\RPG-Project\player\skills.h \
- D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/ctime \
- D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/time.h \
- D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/_timeval.h \
- D:/vscodemingw/mingw64/x86_64-w64-mingw32/include/pthread_time.h \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/iostream \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/ostream \
  D:/vscodemingw/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/ios \

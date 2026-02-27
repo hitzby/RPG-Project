@@ -28,3 +28,12 @@ void Character::attacktarget(Character &target) {
 bool Character::isalive() const { return hp > 0; }
 int Character::getmaxhp() const { return max_hp; }
 int Character::getmaxmp() const { return max_mp; }
+void Character::setmp(int mp) {
+  if (mp > max_mp) {
+    this->mp = max_mp;
+  } else if (mp < 0) {
+    this->mp = 0;
+  } else {
+    this->mp = mp;
+  }
+}

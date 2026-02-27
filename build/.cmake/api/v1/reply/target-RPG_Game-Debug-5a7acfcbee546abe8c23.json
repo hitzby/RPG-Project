@@ -28,13 +28,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 25,
+				"line" : 16,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 22,
+				"line" : 14,
 				"parent" : 0
 			}
 		]
@@ -69,11 +69,11 @@
 				},
 				{
 					"backtrace" : 2,
-					"path" : "D:/RPG-Project/jobs"
+					"path" : "D:/RPG-Project/item"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "D:/RPG-Project/item"
+					"path" : "D:/RPG-Project/skills"
 				}
 			],
 			"language" : "CXX",
@@ -92,7 +92,8 @@
 				2,
 				3,
 				4,
-				5
+				5,
+				6
 			]
 		}
 	],
@@ -130,7 +131,8 @@
 				2,
 				3,
 				4,
-				5
+				5,
+				6
 			]
 		}
 	],
@@ -170,6 +172,12 @@
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
 			"path" : "player/player.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "player/skills.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

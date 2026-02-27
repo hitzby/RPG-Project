@@ -1,6 +1,7 @@
 #include "player.h"
 #include "character.h"
 #include "item.h"
+#include "skills.h"
 #include <ctime>
 #include <iostream>
 
@@ -278,4 +279,60 @@ void player::takedamage(int damage) {
   }
   cout << getname() << " takes " << damage << " damage! (HP: " << hp << "/"
        << max_hp << ")" << endl;
+}
+void player::showSkills(player &hero) const {
+  if (skills.empty()) {
+    cout << "没有任何技能！" << endl;
+    return;
+  }
+  cout << "=== " << getname() << "的技能 ===" << endl;
+  for (int i = 0; i < skills.size(); i++) {
+    const skill *s = skills[i].get();
+    cout << i + 1 << ". " << s->getskillname()
+         << " (等级: " << s->getskilllevel() << ", MP消耗: " << s->getcostmp()
+         << ", 冷却: " << s->getcooldown()
+         << "s, 当前冷却: " << s->getcurrentcooldown()
+         << "s, 伤害: " << s->getdamage() << ")" << endl
+         << "等级需求: " << s->getlevelrequired() << endl
+         << "当前技能状态: " << (s->canUse(hero) ? "可用" : "不可用") << endl
+         << "===============================" << endl;
+  }
+}
+bool player::useSkill(int index, Character &target) {
+  if (index < 1 || index > skills.size()) {
+    cout << "无效的技能索引！" << endl;
+    return false;
+  }
+  bool result = skills[index - 1]->useSkill(*this, target);
+  return result;
+}
+void player::learnSkill(std::unique_ptr<skill> newSkill) {
+  skills.push_back(std::move(newSkill));
+}
+skill *player::getSkill(int index) const {
+  if (index < 1 || index > skills.size()) {
+    return nullptr;
+  }
+  return skills[index - 1].get();
+}
+int player::getSkillCount() const { return skills.size(); }
+void player::reduceallCooldowns() {
+  for (auto &s : skills) {
+    s->reducecooldown();
+  }
+}
+player::~player() = default;
+void player::levelUpSkill(int index) {
+  if (index < 1 || index > skills.size()) {
+    cout << "无效的技能索引！" << endl;
+    return;
+  }
+  skill *s = skills[index - 1].get();
+  int costcoins = s->getlevelUpCost();
+  if (coin >= costcoins) {
+    costcoin(costcoins);
+    s->levelUpSkill(level, costcoins);
+  } else {
+    cout << "金币不足，无法升级技能！" << endl;
+  }
 }

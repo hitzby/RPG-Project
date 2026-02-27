@@ -34,5 +34,11 @@
   "command": "D:\\vscodemingw\\mingw64\\bin\\g++.exe  @CMakeFiles/RPG_Game.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\RPG_Game.dir\\player\\player.cpp.obj -c D:\\RPG-Project\\player\\player.cpp",
   "file": "D:/RPG-Project/player/player.cpp",
   "output": "CMakeFiles/RPG_Game.dir/player/player.cpp.obj"
+},
+{
+  "directory": "D:/RPG-Project/build",
+  "command": "D:\\vscodemingw\\mingw64\\bin\\g++.exe  @CMakeFiles/RPG_Game.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\RPG_Game.dir\\player\\skills.cpp.obj -c D:\\RPG-Project\\player\\skills.cpp",
+  "file": "D:/RPG-Project/player/skills.cpp",
+  "output": "CMakeFiles/RPG_Game.dir/player/skills.cpp.obj"
 }
 ]

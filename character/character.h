@@ -17,6 +17,7 @@ public:
   int gethp() const;
   int getattack() const;
   int getmp() const;
+  void setmp(int mp);
   virtual void takedamage(int damage);
   virtual void attacktarget(Character &target);
   bool isalive() const;

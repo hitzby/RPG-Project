@@ -16,8 +16,8 @@ using namespace std;
 enemy generateEnemy(int floor) {
   int hp = 20 + floor * 10;
   int attack = 4 + floor * 5;
-  int exp_reward = 10 + floor * 10;
-  int coin_reward = 5 + floor * 2;
+  int exp_reward = 10 + floor * 100;
+  int coin_reward = 5 + floor * 20;
   int level = floor;
 
   // Boss 关卡增强
@@ -76,7 +76,31 @@ bool battle(player &hero, enemy &monster) {
 
   while (hero.gethp() > 0 && monster.gethp() > 0) {
     // 1. 玩家攻击
-    hero.attacktarget(monster);
+    hero.setmp(hero.getmp() + 5);
+    hero.reduceallCooldowns(); // 每回合开始时减少技能冷却时间
+    cout << ">>>" << "你的回合！What do you want to do!" << endl;
+  post_skill_decision:
+    cout << "[1] Attack [2] Use Skill" << endl;
+    int action_choice;
+    cin >> action_choice;
+    if (action_choice == 1) {
+      hero.attacktarget(monster);
+    } else if (action_choice == 2) {
+      hero.showSkills(hero);
+
+      cout << "Choose a skill to use (1-" << hero.getSkillCount()
+           << "): " << endl;
+      int skill_choice;
+      cin >> skill_choice;
+      bool skill_used = hero.useSkill(skill_choice, monster);
+      if (!skill_used) {
+        cout << "技能使用失败！" << endl;
+        goto post_skill_decision;
+      }
+    } else {
+      cout << "Invalid choice, defaulting to normal attack." << endl;
+      hero.attacktarget(monster);
+    }
     if (monster.gethp() <= 0) {
       cout << ">>> " << monster.getname() << " is defeated!" << endl;
       hero.gainexp(monster.getexp_reward());
@@ -97,6 +121,7 @@ bool battle(player &hero, enemy &monster) {
     }
 
     // 2. 怪物反击
+    cout << ">>> " << monster.getname() << "的回合！<<<" << endl;
     monster.attacktarget(hero);
     if (hero.gethp() <= 0) {
       cout << ">>> " << hero.getname() << " is defeated!" << endl;
@@ -160,7 +185,7 @@ int main() {
       cout << "\n========================================" << endl;
       cout << "Floor: " << floor << endl;
       cout << "Player: Lv." << ptr->getlevel() << " | HP: " << ptr->gethp()
-           << " | Coin: " << ptr->getcoin() << endl;
+           << " | Coin: " << ptr->getcoin() << "| mp: " << ptr->getmp() << endl;
       cout << "Enemy : Lv." << monster.getlevel()
            << " | HP: " << monster.gethp() << endl;
       cout << "----------------------------------------" << endl;
@@ -182,7 +207,7 @@ int main() {
           cout
               << "[1] Grind (Stay here)  [2] Next Floor  [3] Quit\n"
               << "[4] Check Stats  [5] Show Backpack  [6] Show Equipped Items\n"
-              << "[7] Visit Shop" << endl;
+              << "[7] Visit Shop [8] show skills" << endl;
 
           int post_battle_choice;
           cin >> post_battle_choice;
@@ -240,6 +265,24 @@ int main() {
           } else if (post_battle_choice == 3) {
             cout << "See you next time!" << endl;
             return 0;
+          } else if (post_battle_choice == 8) {
+          post_skill_decision:
+            ptr->showSkills(*ptr);
+            cout << "What do you want to do next?" << endl;
+            cout << "[1] upgrade skill [2] nothing" << endl;
+            int skill_up_choice;
+            cin >> skill_up_choice;
+            if (skill_up_choice == 1) {
+              cout << "Enter the index of the skill you want to upgrade: "
+                   << endl;
+              int skill_index;
+              cin >> skill_index;
+              ptr->levelUpSkill(skill_index);
+              goto post_skill_decision;
+            } else {
+              cout << "Back to previous menu." << endl;
+              goto post_battle_decision;
+            }
           } else if (post_battle_choice == 7) {
 
             showshop(*ptr, floor, shopItems);

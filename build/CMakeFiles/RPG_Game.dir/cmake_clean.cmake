@@ -11,6 +11,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/RPG_Game.dir/player/jobs.cpp.obj.d"
   "CMakeFiles/RPG_Game.dir/player/player.cpp.obj"
   "CMakeFiles/RPG_Game.dir/player/player.cpp.obj.d"
+  "CMakeFiles/RPG_Game.dir/player/skills.cpp.obj"
+  "CMakeFiles/RPG_Game.dir/player/skills.cpp.obj.d"
   "RPG_Game.exe"
   "RPG_Game.exe.manifest"
   "RPG_Game.pdb"

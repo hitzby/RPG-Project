@@ -272,6 +272,30 @@ player/player.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\RPG_Game.dir\build.make CMakeFiles/RPG_Game.dir/player/player.cpp.s
 .PHONY : player/player.cpp.s
 
+player/skills.obj: player/skills.cpp.obj
+.PHONY : player/skills.obj
+
+# target to build an object file
+player/skills.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RPG_Game.dir\build.make CMakeFiles/RPG_Game.dir/player/skills.cpp.obj
+.PHONY : player/skills.cpp.obj
+
+player/skills.i: player/skills.cpp.i
+.PHONY : player/skills.i
+
+# target to preprocess a source file
+player/skills.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RPG_Game.dir\build.make CMakeFiles/RPG_Game.dir/player/skills.cpp.i
+.PHONY : player/skills.cpp.i
+
+player/skills.s: player/skills.cpp.s
+.PHONY : player/skills.s
+
+# target to generate assembly for a file
+player/skills.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RPG_Game.dir\build.make CMakeFiles/RPG_Game.dir/player/skills.cpp.s
+.PHONY : player/skills.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -299,6 +323,9 @@ help:
 	@echo ... player/player.obj
 	@echo ... player/player.i
 	@echo ... player/player.s
+	@echo ... player/skills.obj
+	@echo ... player/skills.i
+	@echo ... player/skills.s
 .PHONY : help
 
 
