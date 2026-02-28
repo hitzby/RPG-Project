@@ -15,6 +15,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "D:/RPG-Project/player/jobs.cpp" "CMakeFiles/RPG_Game.dir/player/jobs.cpp.obj" "gcc" "CMakeFiles/RPG_Game.dir/player/jobs.cpp.obj.d"
   "D:/RPG-Project/player/player.cpp" "CMakeFiles/RPG_Game.dir/player/player.cpp.obj" "gcc" "CMakeFiles/RPG_Game.dir/player/player.cpp.obj.d"
   "D:/RPG-Project/player/skills.cpp" "CMakeFiles/RPG_Game.dir/player/skills.cpp.obj" "gcc" "CMakeFiles/RPG_Game.dir/player/skills.cpp.obj.d"
+  "D:/RPG-Project/save.cpp" "CMakeFiles/RPG_Game.dir/save.cpp.obj" "gcc" "CMakeFiles/RPG_Game.dir/save.cpp.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

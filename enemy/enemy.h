@@ -1,5 +1,5 @@
 #pragma once
-#include "../character/character.h"
+#include "character.h"
 #include <vector>
 enum class Affix {
   STRONG,

@@ -9,8 +9,9 @@ file(GLOB_RECURSE SOURCES
     "enemy/*.cpp"
     "item/*.cpp"
     "skills/*.cpp"
+    "save.cpp"
 )
 
-include_directories(character player enemy item skills)
+include_directories(character player enemy item skills save)
 
 add_executable(RPG_Game ${SOURCES})
