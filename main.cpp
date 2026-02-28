@@ -57,20 +57,82 @@ eventType generateRandomEvent() {
 // ─────────────────────────────────────────────
 //  随机物品生成
 // ─────────────────────────────────────────────
+// ─────────────────────────────────────────────
+//  物品品质分级（参考 Diablo 装备等级设计）
+//  普通 / 精良 / 稀有 / 史诗
+// ─────────────────────────────────────────────
+static string getWeaponName(int floor, int tier) {
+  const string weapons[][4] = {
+      {"破旧匕首", "铁剑", "精钢长剑", "符文战剑"},
+      {"木弓", "角弓", "精灵长弓", "龙骨弓"},
+      {"朽木法杖", "水晶法杖", "龙纹法杖", "混沌魔杖"},
+  };
+  int row = rand() % 3;
+  return weapons[row][min(tier, 3)];
+}
+static string getArmorName(int floor, int tier) {
+  const string armors[][4] = {
+      {"破布衬衣", "皮甲", "锁子甲", "秘银板甲"},
+      {"木盾", "铁盾", "精钢盾牌", "神圣盾牌"},
+      {"布袍", "学者长袍", "魔纹法衣", "星辰法衣"},
+  };
+  int row = rand() % 3;
+  return armors[row][min(tier, 3)];
+}
+static string getPotionName(int tier) {
+  const string potions[] = {"小型治疗药水", "治疗药水", "优质治疗药水",
+                            "神圣圣水"};
+  return potions[min(tier, 3)];
+}
+
 Item generateRandomItem(int floor) {
+  // 品质：floor越高，出现高品质概率越大
+  int r = rand() % 100;
+  int tier;
+  if (r < 50)
+    tier = 0; // 普通  50%
+  else if (r < 80)
+    tier = 1; // 精良  30%
+  else if (r < 95)
+    tier = 2; // 稀有  15%
+  else
+    tier = 3; // 史诗   5%（低楼层也可能）
+
+  // 楼层越高，品质下限越高
+  int floorBonus = floor / 20; // 每20层，品质至少+1
+  tier = min(3, tier + floorBonus);
+
   int itemType = rand() % 3;
-  int value = (floor / 10 + 1) * (rand() % 5 + 1);
-  string name;
+
+  // 数值：tier决定基础，floor决定成长
+  // 武器攻击+：约等于对应层怪物攻击的30%~60%，有显著提升
+  // 防具HP+：约等于对应层玩家HP的15%~30%
+  int baseVal = (tier + 1) * 6 + floor * 2;
+  int value = baseVal + rand() % (baseVal / 2 + 1);
+
+  // 药水：回复量有意义（初期回30~60，中期60~120）
+  int potVal = 25 + (tier + 1) * 15 + floor * 3;
+
+  // 耐久度：精良/稀有/史诗更耐用
+  int durability = (tier + 1) * 8 + floor / 2 + rand() % 5;
+  // 价格：稀有品贵，但合理
+  int price = (tier + 1) * 30 + floor * 8;
+  // 等级需求：约等于floor，但不超过太多
+  int levelReq = max(1, floor - 2 + tier);
+
   switch (itemType) {
-  case 0:
-    name = "Potion of Floor " + to_string(floor);
-    return Item(name, floor, Potion, value, 0, floor * 10, 1);
-  case 1:
-    name = "Weapon of Floor " + to_string(floor);
-    return Item(name, floor, Weapon, value, floor * 2, floor * 10, 1);
-  default:
-    name = "Armor of Floor " + to_string(floor);
-    return Item(name, floor, Armor, value, floor * 2, floor * 10, 1);
+  case 0: {
+    string name = getPotionName(tier);
+    return Item(name, 1, Potion, potVal, 0, price / 2, 1);
+  }
+  case 1: {
+    string name = getWeaponName(floor, tier);
+    return Item(name, levelReq, Weapon, value, durability, price, 1);
+  }
+  default: {
+    string name = getArmorName(floor, tier);
+    return Item(name, levelReq, Armor, value + value / 2, durability, price, 1);
+  }
   }
 }
 
@@ -78,33 +140,39 @@ Item generateRandomItem(int floor) {
 //  怪物生成
 // ─────────────────────────────────────────────
 enemy generateEnemy(int floor) {
-  int hp = 20 + floor * 10;
-  int attack = 4 + floor * 5;
-  int exp_reward = 10 + floor * 100;
-  int coin_reward = 5 + floor * 20;
+  // ── 成长曲线（参考 Slay the Spire）──
+  // HP：前期慢，中后期加速，但不至于无解
+  int hp = 35 + floor * 8 + (floor * floor) / 8;
+  // 攻击：约等于对应职业HP的6~10%，有压力但不秒杀
+  int attack = 4 + floor * 2 + floor / 4;
+  // 经验：每层刷2~3只怪能稳定升级
+  int exp_reward = 30 + floor * 25;
+  // 金币：前期宽裕，中期可买装备，后期刷Boss发财
+  int coin_reward = 8 + floor * 12;
   int level = floor;
   string name = "Monster of Floor " + to_string(floor);
 
-  // Boss 关卡强化
+  // ── Boss关卡（每10层）──
   if (floor % 10 == 0) {
-    hp += 100;
-    attack += 10;
-    exp_reward += 50;
-    coin_reward += 20;
-    level += 5;
-    name = "Boss of Floor " + to_string(floor);
+    hp = hp * 3;                   // Boss 3倍血量
+    attack = attack * 2;           // Boss 2倍攻击
+    exp_reward = exp_reward * 4;   // Boss 4倍经验
+    coin_reward = coin_reward * 5; // Boss 5倍金币
+    level += 3;
+    name = "★ BOSS of Floor " + to_string(floor) + " ★";
   }
 
   enemy monster(name, hp, attack, 0, exp_reward, coin_reward, level);
   monster.setAffix(floor);
 
+  // 词缀加成更明显
   if (monster.hasAffix(Affix::STRONG))
-    monster.resetattack(monster.getattack() + monster.getlevel() * 2);
+    monster.resetattack(monster.getattack() + monster.getlevel() * 3);
   if (monster.hasAffix(Affix::TOUGH))
-    monster.resethp(monster.gethp() + monster.getlevel() * 20);
+    monster.resethp(monster.gethp() + monster.getlevel() * 25);
   if (monster.hasAffix(Affix::QUICK))
     monster.setdogeRate(
-        min(monster.getdogeRate() + monster.getlevel() * 2, 50));
+        min(monster.getdogeRate() + monster.getlevel() * 2, 45));
 
   return monster;
 }
@@ -143,7 +211,7 @@ bool hadEvent(player &hero, int floor) {
 
   case eventType::TREASURE: {
     cout << "你发现了一个宝箱！里面有一些金币和一个随机物品！" << endl;
-    int coins = 50 + floor * 10;
+    int coins = 40 + floor * 15 + rand() % (floor * 5 + 20); // 宝箱金币有随机性
     hero.gaincoin(coins);
     cout << "你获得了 " << coins << " 金币！" << endl;
     Item randomItem = generateRandomItem(floor);
@@ -170,7 +238,8 @@ bool hadEvent(player &hero, int floor) {
 
   case eventType::TRAP: {
     cout << "你触发了一个陷阱！受到了一些伤害！" << endl;
-    int trapDamage = 10 + floor * 5;
+    // 陷阱伤害：约等于玩家当前最大HP的8%~15%，有痛感但不致命
+    int trapDamage = 8 + floor * 2 + rand() % (floor + 5);
     hero.takedamage(trapDamage);
   } break;
 
@@ -222,7 +291,7 @@ bool hadEvent(player &hero, int floor) {
 
   case eventType::HOT_SPRING: {
     cout << "你发现了一个温泉！休息一下，恢复一些 HP 和 MP！" << endl;
-    int hpR = 20 + floor * 10, mpR = 10 + floor * 5;
+    int hpR = 40 + floor * 8, mpR = 20 + floor * 4; // 温泉：大回复，鼓励冒险
     hero.sethp(hero.gethp() + hpR);
     hero.setmp(hero.getmp() + mpR);
     cout << "你恢复了 " << hpR << " 点 HP 和 " << mpR << " 点 MP！" << endl;
@@ -233,13 +302,13 @@ bool hadEvent(player &hero, int floor) {
     int outcome = rand() % 3;
     if (outcome == 0) {
       cout << "神明赐予了你金币和经验！" << endl;
-      int gc = 100 + floor * 20, ec = 50 + floor * 10;
+      int gc = 80 + floor * 30, ec = 40 + floor * 20; // 神赐：大量经验和金币
       hero.gaincoin(gc);
       hero.gainexp(ec);
       cout << "获得 " << gc << " 金币，" << ec << " 经验！" << endl;
     } else if (outcome == 1) {
       cout << "神明拒绝了你！失去了一些 HP 和 MP！" << endl;
-      int hl = 15 + floor * 5, ml = 10 + floor * 5;
+      int hl = 10 + floor * 3, ml = 8 + floor * 3; // 神罚：较轻，避免无聊死亡
       hero.takedamage(hl);
       hero.setmp(max(0, hero.getmp() - ml));
       cout << "失去了 " << hl << " 点 HP 和 " << ml << " 点 MP！" << endl;
@@ -266,7 +335,7 @@ bool battle(player &hero, enemy &monster) {
   cout << "\n>>> " << monster.getname() << " 出现了！<<<" << endl;
 
   while (hero.gethp() > 0 && monster.gethp() > 0) {
-    hero.setmp(hero.getmp() + 5);
+    hero.setmp(hero.getmp() + 8); // 每回合回复8MP，鼓励使用技能
     hero.reduceallCooldowns();
 
     cout << ">>> 你的回合！What do you want to do!" << endl;
@@ -274,7 +343,7 @@ bool battle(player &hero, enemy &monster) {
     // 剧毒伤害
     if (monster.hasAffix(Affix::POSIONOUS)) {
       cout << ">>> " << monster.getname() << "【剧毒】<<<" << endl;
-      int pDmg = 5 + monster.getlevel() * 2;
+      int pDmg = 8 + monster.getlevel() * 3; // 剧毒伤害稍强，增加威胁感
       hero.takedamage(pDmg);
       cout << "你受到了 " << pDmg << " 点毒伤！(HP: " << hero.gethp() << "/"
            << hero.getmaxhp() << ")" << endl;
@@ -293,7 +362,7 @@ bool battle(player &hero, enemy &monster) {
     auto doAttack = [&]() {
       if (monster.hasAffix(Affix::SHIELDING)) {
         cout << ">>> " << monster.getname() << "【护盾】<<<" << endl;
-        int shield = 10 + monster.getlevel() * 5;
+        int shield = 8 + monster.getlevel() * 6; // 护盾随等级更强
         int dealt = max(0, hero.getattack() - shield);
         if (dealt > 0) {
           cout << "你突破了护盾，造成 " << dealt << " 点伤害！" << endl;
@@ -326,7 +395,7 @@ bool battle(player &hero, enemy &monster) {
     if (monster.gethp() <= 0) {
       if (monster.hasAffix(Affix::EXPLOSIVE)) {
         cout << ">>> " << monster.getname() << "【爆炸】<<<" << endl;
-        int expDmg = 20 + monster.getlevel() * 5;
+        int expDmg = 15 + monster.getlevel() * 8; // 爆炸：高层更危险
         hero.takedamage(expDmg);
         cout << "你受到了 " << expDmg << " 点爆炸伤害！(HP: " << hero.gethp()
              << "/" << hero.getmaxhp() << ")" << endl;
@@ -339,10 +408,10 @@ bool battle(player &hero, enemy &monster) {
       cout << ">>> " << monster.getname() << " 被击败了！" << endl;
       hero.gainexp(monster.getexp_reward());
       hero.gaincoin(monster.getcoin_reward());
-      hero.heal(hero.getmaxhp() / 5);
+      hero.heal(hero.getmaxhp() / 10); // 击杀回复10%HP，有意义但不过强
       cout << ">>> YOU WIN!" << endl;
       // 掉落
-      if (rand() % 100 < 50) {
+      if (rand() % 100 < 60) { // 60%掉落率
         Item dropped = generateRandomItem(monster.getlevel());
         cout << "掉落了"
              << (dropped.getType() == Potion   ? "药水"
@@ -359,7 +428,7 @@ bool battle(player &hero, enemy &monster) {
     monster.attacktarget(hero);
     if (monster.hasAffix(Affix::HEALING)) {
       cout << ">>> " << monster.getname() << "【治疗】<<<" << endl;
-      int healAmt = 10 + monster.getlevel() * 5;
+      int healAmt = 12 + monster.getlevel() * 6; // 治疗词缀：敌方回血更可观
       monster.heal(healAmt);
       cout << monster.getname() << " 恢复了 " << healAmt
            << " 点 HP！(HP: " << monster.gethp() << "/" << monster.getmaxhp()
@@ -612,19 +681,19 @@ int main() {
           else if (pbc == 7) {
             showshop(*ptr, floor, shopItems);
           post_shop_decision:
-            cout << "[1] 购买  [2] 返回  [3] 刷新商店（20金币）" << endl;
+            cout << "[1] 购买  [2] 返回  [3] 刷新商店（50金币）" << endl;
             int sc;
             sc = safeReadInt();
             if (sc == 1) {
               bool buying = true;
               while (buying) {
                 if (shopItems.empty()) {
-                  cout << "商店已售罄！是否刷新（20金币）？[1] 是  [2] 否"
+                  cout << "商店已售罄！是否刷新（50金币）？[1] 是  [2] 否"
                        << endl;
                   int rc;
                   rc = safeReadInt();
-                  if (rc == 1 && ptr->getcoin() >= 20) {
-                    ptr->costcoin(20);
+                  if (rc == 1 && ptr->getcoin() >= 50) {
+                    ptr->costcoin(50);
                     for (int i = 0; i < 5; i++)
                       shopItems.push_back(generateRandomItem(floor));
                     showshop(*ptr, floor, shopItems);
@@ -653,8 +722,8 @@ int main() {
                   buying = false;
               }
             } else if (sc == 3) {
-              if (ptr->getcoin() >= 20) {
-                ptr->costcoin(20);
+              if (ptr->getcoin() >= 50) {
+                ptr->costcoin(50);
                 shopItems.clear();
                 for (int i = 0; i < 5; i++)
                   shopItems.push_back(generateRandomItem(floor));

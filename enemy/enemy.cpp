@@ -37,22 +37,22 @@ void enemy::resetall(int hp, int attack, int mp, int exp_reward,
 int enemy::getdogeRate() const { return dogeRate; }
 void enemy::setdogeRate(int rate) { dogeRate = rate; }
 Affix enemy::getRandomAffix() const {
-  int randomNUm = rand() % 100;
-  if (randomNUm < 20) {
-    return Affix::STRONG; // 20% 概率
-  } else if (randomNUm < 40) {
-    return Affix::TOUGH; // 20% 概率
-  } else if (randomNUm < 60) {
-    return Affix::QUICK; // 20% 概率
-  } else if (randomNUm < 80) {
-    return Affix::EXPLOSIVE; // 20% 概率
-  } else if (randomNUm < 90) {
-    return Affix::POSIONOUS; // 10% 概率
-  } else if (randomNUm < 95) {
-    return Affix::HEALING; // 5% 概率
-  } else {
-    return Affix::SHIELDING; // 5% 概率
-  }
+  // 重新设计概率权重：危险词缀稀有但恐怖，普通词缀常见
+  int r = rand() % 100;
+  if (r < 25)
+    return Affix::STRONG; // 25% 力量：攻击提升
+  else if (r < 45)
+    return Affix::TOUGH; // 20% 坚韧：HP提升
+  else if (r < 60)
+    return Affix::QUICK; // 15% 迅捷：闪避提升
+  else if (r < 73)
+    return Affix::POSIONOUS; // 13% 剧毒：持续伤害（危险）
+  else if (r < 85)
+    return Affix::HEALING; // 12% 治疗：战斗中回血（烦人）
+  else if (r < 93)
+    return Affix::EXPLOSIVE; //  8% 爆炸：死亡时反伤（惊喜）
+  else
+    return Affix::SHIELDING; //  7% 护盾：吸收伤害（最难缠）
 }
 void enemy::setAffix(int floor) {
   int generate_chance = 0;
@@ -74,15 +74,15 @@ void enemy::setAffix(int floor) {
   if (floor >= 80 && floor <= 100) {
     generate_chance = 6;
   }
+  // 每次有 40% 基础概率触发词缀，高楼层概率更高
   for (int i = 0; i < generate_chance; i++) {
-    int randomNum = (rand() % 100 + floor) % 100;
-    int count = 0;
-    if (randomNum < 20) {
+    int threshold = min(40 + floor / 5, 70); // 40%~70%，随楼层增加
+    if ((rand() % 100) < threshold) {
       affixes.push_back(getRandomAffix());
-      count++;
+      // 有词缀：经验和金币额外奖励
+      resetexp_reward(getexp_reward() + getlevel() * 3);
+      resetcoin_reward(getcoin_reward() + getlevel() * 2);
     }
-    resetexp_reward(getexp_reward() + (getlevel()) * count);
-    resetcoin_reward(getcoin_reward() + (getlevel()) * count);
   }
 }
 bool enemy::hasAffix(Affix affix) const {
