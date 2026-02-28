@@ -68,7 +68,6 @@ bool hadEvent(player &hero, int floor) {
       cout << "你触发了一个陷阱！受到了一些伤害！" << endl;
       int trapDamage = 10 + floor * 5;
       hero.takedamage(trapDamage);
-      cout << "你受到了" << trapDamage << "点伤害！" << endl;
     } break;
     case eventType::MERCHANT: {
       cout << "你遇到了一个商人！他有一些物品出售！" << endl;
