@@ -16,6 +16,8 @@ Warrior::Warrior(string name) : player(name, 200, 18, 15, 1, 0, 0, 8) {
   learnSkill(std::make_unique<Warriorskill_1>());
   learnSkill(std::make_unique<Warriorskill_2>());
   learnSkill(std::make_unique<Warriorskill_3>());
+  learnSkill(std::make_unique<Warriorskill_4>());
+  learnSkill(std::make_unique<Warriorskill_5>());
 }
 void Warrior::levelup() {
   level++;
@@ -37,6 +39,8 @@ Mage::Mage(string name) : player(name, 120, 12, 40, 1, 0, 0, 12) {
   learnSkill(std::make_unique<Mageskill_1>());
   learnSkill(std::make_unique<Mageskill_2>());
   learnSkill(std::make_unique<Mageskill_3>());
+  learnSkill(std::make_unique<Mageskill_4>());
+  learnSkill(std::make_unique<Mageskill_5>());
 }
 void Mage::levelup() {
   level++;
@@ -59,6 +63,8 @@ Assassin::Assassin(string name) : player(name, 150, 15, 25, 1, 0, 0, 25) {
   learnSkill(std::make_unique<Assassinskill_1>());
   learnSkill(std::make_unique<Assassinskill_2>());
   learnSkill(std::make_unique<Assassinskill_3>());
+  learnSkill(std::make_unique<Assassinskill_4>());
+  learnSkill(std::make_unique<Assassinskill_5>());
 }
 void Assassin::levelup() {
   level++;
