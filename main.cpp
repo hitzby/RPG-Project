@@ -339,42 +339,6 @@ int main() {
 
     // 内层循环：本层刷怪
     while (true) {
-      bool eventResult = hadEvent(*ptr, floor);
-      if (eventResult) {
-        // 事件导致死亡，处理复活逻辑
-        if (ptr->getfreerevives() > 0 && floor < 10) {
-          cout << "你有" << ptr->getfreerevives()
-               << "次免费复活机会，是否使用？[1] Yes [2] No" << endl;
-          int revive_choice;
-          cin >> revive_choice;
-          if (revive_choice == 1) {
-            ptr->decreaserevives();
-            ptr->revive();
-            floor = 1; // 继续当前层
-            break;
-          } else {
-            cout << "你选择了不复活，游戏结束。" << endl;
-            return 0;
-          }
-        } else if (ptr->getcoin() >= 20) {
-          cout << "你有足够的金币支付20金币来复活。是否支付？[1] Yes [2] No"
-               << endl;
-          int pay_revive_choice;
-          cin >> pay_revive_choice;
-          if (pay_revive_choice == 1) {
-            ptr->costcoin(20);
-            ptr->revive();
-            floor--; // 继续当前层
-            break;
-          } else {
-            cout << "你选择了不复活，游戏结束。" << endl;
-            return 0;
-          }
-        } else {
-          cout << "没有足够的金币支付复活费用，游戏结束。" << endl;
-          return 0;
-        }
-      }
       enemy monster = generateEnemy(floor);
 
       cout << "\n========================================" << endl;
@@ -392,6 +356,43 @@ int main() {
       cin >> choice;
 
       if (choice == 1) {
+        bool eventResult = hadEvent(*ptr, floor);
+        if (eventResult) {
+          // 事件导致死亡，处理复活逻辑
+          if (ptr->getfreerevives() > 0 && floor < 10) {
+            cout << "你有" << ptr->getfreerevives()
+                 << "次免费复活机会，是否使用？[1] Yes [2] No" << endl;
+            int revive_choice;
+            cin >> revive_choice;
+            if (revive_choice == 1) {
+              ptr->decreaserevives();
+              ptr->revive();
+              floor = 1; // 继续当前层
+              break;
+            } else {
+              cout << "你选择了不复活，游戏结束。" << endl;
+              return 0;
+            }
+          } else if (ptr->getcoin() >= 20) {
+            cout << "你有足够的金币支付20金币来复活。是否支付？[1] Yes [2] No"
+                 << endl;
+            int pay_revive_choice;
+            cin >> pay_revive_choice;
+            if (pay_revive_choice == 1) {
+              ptr->costcoin(20);
+              ptr->revive();
+              if (floor > 1)
+                floor--; // 继续当前层
+              break;
+            } else {
+              cout << "你选择了不复活，游戏结束。" << endl;
+              return 0;
+            }
+          } else {
+            cout << "没有足够的金币支付复活费用，游戏结束。" << endl;
+            return 0;
+          }
+        }
         // === 战斗 ===
         bool result = battle(*ptr, monster);
 
