@@ -1,6 +1,7 @@
 #include "enemy.h"
 #include "character.h"
 #include <cstdlib>
+#include <ostream>
 using namespace std;
 #include <iostream>
 enemy::enemy(string name, int hp, int attack, int mp, int exp_reward,
@@ -97,7 +98,7 @@ void enemy::displayAffixes() const {
     cout << "[普通]";
     return;
   }
-  cout << "【词缀】";
+  cout << "敌人被加持了！！！【词缀】" << endl;
   for (auto aff : affixes) {
     switch (aff) {
     case Affix::STRONG:
