@@ -298,7 +298,7 @@ void player::showSkills(player &hero) const {
          << "===============================" << endl;
   }
 }
-bool player::useSkill(int index, Character &target) {
+bool player::useSkill(int index, enemy &target) {
   if (index < 1 || index > skills.size()) {
     cout << "无效的技能索引！" << endl;
     return false;
@@ -383,5 +383,28 @@ void player::equipItem_T(const Item &item) {
     equipments.push_back(newItem);
   } else {
     cout << "只能装备武器或防具！" << endl;
+  }
+}
+void player::attacktargetDealt(Character &target, int damage) {
+  bool isCrit = (rand() % 100 < critRate);
+  if (isCrit) {
+    damage *= 2;
+    cout << "【暴击】" << endl;
+  }
+  cout << getname() << " attacks " << target.getname() << " for " << damage
+       << " damage!" << endl;
+  target.takedamage(damage);
+  // 处理武器耐久（从后向前遍历）
+  for (int i = equipments.size() - 1; i >= 0; --i) {
+    auto &item = equipments[i];
+    if (item.getType() == Weapon) {
+      item.setDurability(item.getDurability() - 1);
+      if (item.getDurability() <= 0) {
+        cout << "【装备破损】" << item.getName() << "已破损，攻击力减少"
+             << item.getValue() << "点！" << endl;
+        attack -= item.getValue();
+        equipments.erase(equipments.begin() + i);
+      }
+    }
   }
 }

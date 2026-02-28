@@ -177,7 +177,7 @@ enemy generateEnemy(int floor) {
   int exp_reward = 10 + floor * 100;
   int coin_reward = 5 + floor * 20;
   int level = floor;
-
+  string name = "Monster of Floor " + to_string(floor);
   // Boss 关卡增强
   if (floor % 10 == 0) {
     hp += 100;
@@ -185,11 +185,21 @@ enemy generateEnemy(int floor) {
     exp_reward += 50;
     coin_reward += 20;
     level += 5;
-    return enemy("【BOSS】Enemy " + to_string(floor), hp, attack, 0, exp_reward,
-                 coin_reward, level);
+    name = "Boss of Floor " + to_string(floor);
   }
-  return enemy("Wild Enemy " + to_string(floor), hp, attack, 0, exp_reward,
-               coin_reward, level);
+  enemy monster(name, hp, attack, 0, exp_reward, coin_reward, level);
+  monster.setAffix(floor);
+  if (monster.hasAffix(Affix::STRONG)) {
+    monster.resetattack(monster.getattack() + monster.getlevel() * 2);
+  }
+  if (monster.hasAffix(Affix::TOUGH)) {
+    monster.resethp(monster.gethp() + monster.getlevel() * 20);
+  }
+  if (monster.hasAffix(Affix::QUICK)) {
+    monster.setdogeRate(
+        min(monster.getdogeRate() + monster.getlevel() * 2, 50));
+  }
+  return monster;
 }
 // 随机掉落
 Item generateRandomItem(int floor) {
@@ -237,12 +247,41 @@ bool battle(player &hero, enemy &monster) {
     hero.setmp(hero.getmp() + 5);
     hero.reduceallCooldowns(); // 每回合开始时减少技能冷却时间
     cout << ">>>" << "你的回合！What do you want to do!" << endl;
+    if (monster.hasAffix(Affix::POSIONOUS)) {
+      cout << ">>> " << monster.getname() << "【剧毒】 <<<" << endl;
+      int poisonDamage = 5 + monster.getlevel() * 2;
+      hero.takedamage(poisonDamage);
+      cout << "You take " << poisonDamage
+           << " poison damage! (HP: " << hero.gethp() << "/" << hero.getmaxhp()
+           << ")" << endl;
+      if (hero.gethp() <= 0) {
+        cout << ">>> " << hero.getname() << " is defeated by the poison!"
+             << endl;
+        cout << ">>> YOU LOSE..." << endl;
+        return false; // 输了立刻返回
+      }
+    }
   post_skill_decision:
     cout << "[1] Attack [2] Use Skill" << endl;
     int action_choice;
     cin >> action_choice;
     if (action_choice == 1) {
-      hero.attacktarget(monster);
+      if (monster.hasAffix(Affix::SHIELDING)) {
+        cout << ">>> " << monster.getname() << "【护盾】 <<<" << endl;
+        int shieldAmount = 10 + monster.getlevel() * 5;
+        cout << monster.getname() << " absorbs " << shieldAmount
+             << " damage with its shield!" << endl;
+        int damageDealt = max(0, hero.getattack() - shieldAmount);
+        if (damageDealt > 0) {
+          cout << "Your attack breaks through the shield and deals "
+               << damageDealt << " damage!" << endl;
+          hero.attacktargetDealt(monster, damageDealt);
+        } else {
+          cout << "Your attack couldn't penetrate the shield!" << endl;
+        }
+      } else {
+        hero.attacktarget(monster);
+      }
     } else if (action_choice == 2) {
       hero.showSkills(hero);
 
@@ -257,9 +296,38 @@ bool battle(player &hero, enemy &monster) {
       }
     } else {
       cout << "Invalid choice, defaulting to normal attack." << endl;
-      hero.attacktarget(monster);
+      if (monster.hasAffix(Affix::SHIELDING)) {
+        cout << ">>> " << monster.getname() << "【护盾】 <<<" << endl;
+        int shieldAmount = 10 + monster.getlevel() * 5;
+        cout << monster.getname() << " absorbs " << shieldAmount
+             << " damage with its shield!" << endl;
+        int damageDealt = max(0, hero.getattack() - shieldAmount);
+        if (damageDealt > 0) {
+          cout << "Your attack breaks through the shield and deals "
+               << damageDealt << " damage!" << endl;
+          hero.attacktargetDealt(monster, damageDealt);
+        } else {
+          cout << "Your attack couldn't penetrate the shield!" << endl;
+        }
+      } else {
+        hero.attacktarget(monster);
+      }
     }
     if (monster.gethp() <= 0) {
+      if (monster.hasAffix(Affix::EXPLOSIVE)) {
+        cout << ">>> " << monster.getname() << " 【爆炸】 <<<" << endl;
+        int explosionDamage = 20 + monster.getlevel() * 5;
+        hero.takedamage(explosionDamage);
+        cout << "You take " << explosionDamage
+             << " damage from the explosion! (HP: " << hero.gethp() << "/"
+             << hero.getmaxhp() << ")" << endl;
+        if (hero.gethp() <= 0) {
+          cout << ">>> " << hero.getname() << " is defeated by the explosion!"
+               << endl;
+          cout << ">>> YOU LOSE..." << endl;
+          return false; // 输了立刻返回
+        }
+      }
       cout << ">>> " << monster.getname() << " is defeated!" << endl;
       hero.gainexp(monster.getexp_reward());
       hero.gaincoin(monster.getcoin_reward());
@@ -281,6 +349,14 @@ bool battle(player &hero, enemy &monster) {
     // 2. 怪物反击
     cout << ">>> " << monster.getname() << "的回合！<<<" << endl;
     monster.attacktarget(hero);
+    if (monster.hasAffix(Affix::HEALING)) {
+      cout << ">>> " << monster.getname() << "【治疗】 <<<" << endl;
+      int healAmount = 10 + monster.getlevel() * 5;
+      monster.heal(healAmount);
+      cout << monster.getname() << " heals for " << healAmount
+           << " HP! (HP: " << monster.gethp() << "/" << monster.getmaxhp()
+           << ")" << endl;
+    }
     if (hero.gethp() <= 0) {
       cout << ">>> " << hero.getname() << " is defeated!" << endl;
       cout << ">>> YOU LOSE..." << endl;
@@ -339,6 +415,7 @@ int main() {
     // 内层循环：本层刷怪
     while (true) {
       enemy monster = generateEnemy(floor);
+      monster.displayAffixes(); // 显示词缀
 
       cout << "\n========================================" << endl;
       cout << "Floor: " << floor << endl;

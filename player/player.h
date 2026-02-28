@@ -1,8 +1,10 @@
 #pragma once
 #include "../character/character.h"
 #include "../item/item.h"
+#include "enemy.h"
 #include <memory>
 #include <vector>
+
 class skill;
 class player : public Character {
 protected:
@@ -43,11 +45,12 @@ public:
   void unequipItem(int index);
   void showEquippedItems() const;
   void showSkills(player &hero) const;
-  bool useSkill(int index, Character &target);
+  bool useSkill(int index, enemy &target);
   void learnSkill(std::unique_ptr<skill> newSkill);
   skill *getSkill(int index) const;
   int getSkillCount() const;
   void reduceallCooldowns();
   void levelUpSkill(int index);
   void equipItem_T(const Item &item);
+  void attacktargetDealt(Character &target, int damage);
 };

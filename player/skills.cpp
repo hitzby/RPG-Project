@@ -1,6 +1,7 @@
 #include "skills.h"
-#include "character.h"
+#include "enemy.h"
 #include "player.h"
+#include <algorithm>
 #include <iostream>
 
 using namespace std;
@@ -58,10 +59,25 @@ void skill::learnSkill(int playerlevel) {
   }
 }
 Warriorskill_1::Warriorskill_1() : skill(1, 10, 5, 3, 20, 1, "ÃÍ»÷") {}
-bool Warriorskill_1::useSkill(player &hero, Character &target) {
+bool Warriorskill_1::useSkill(player &hero, enemy &target) {
   if (canUse(hero)) {
     cout << "You used " << getskillname() << " on " << target.getname() << endl;
-    target.takedamage(getdamage() * getskilllevel());
+    if (target.hasAffix(Affix::SHIELDING)) {
+      cout << ">>> " << target.getname() << "¡¾»¤¶Ü¡¿ <<<" << endl;
+      int shieldAmount = 10 + target.getlevel() * 5;
+      cout << target.getname() << " absorbs " << shieldAmount
+           << " damage with its shield!" << endl;
+      int damageDealt = max(0, getdamage() * getskilllevel() - shieldAmount);
+      if (damageDealt > 0) {
+        cout << "Your skill breaks through the shield and deals " << damageDealt
+             << " damage!" << endl;
+        target.takedamage(damageDealt);
+      } else {
+        cout << "Your skill couldn't penetrate the shield!" << endl;
+      }
+    } else {
+      target.takedamage(getdamage() * getskilllevel());
+    }
     hero.setmp(hero.getmp() - getcostmp());
     resetcooldown();
     return true;
@@ -70,10 +86,25 @@ bool Warriorskill_1::useSkill(player &hero, Character &target) {
 }
 
 Warriorskill_2::Warriorskill_2() : skill(2, 15, 10, 4, 30, 1, "ÖØ»÷") {}
-bool Warriorskill_2::useSkill(player &hero, Character &target) {
+bool Warriorskill_2::useSkill(player &hero, enemy &target) {
   if (canUse(hero)) {
     cout << "You used " << getskillname() << " on " << target.getname() << endl;
-    target.takedamage(getdamage() * getskilllevel());
+    if (target.hasAffix(Affix::SHIELDING)) {
+      cout << ">>> " << target.getname() << "¡¾»¤¶Ü¡¿ <<<" << endl;
+      int shieldAmount = 10 + target.getlevel() * 5;
+      cout << target.getname() << " absorbs " << shieldAmount
+           << " damage with its shield!" << endl;
+      int damageDealt = max(0, getdamage() * getskilllevel() - shieldAmount);
+      if (damageDealt > 0) {
+        cout << "Your skill breaks through the shield and deals " << damageDealt
+             << " damage!" << endl;
+        target.takedamage(damageDealt);
+      } else {
+        cout << "Your skill couldn't penetrate the shield!" << endl;
+      }
+    } else {
+      target.takedamage(getdamage() * getskilllevel());
+    }
     hero.setmp(hero.getmp() - getcostmp());
     resetcooldown();
     return true;
@@ -81,10 +112,25 @@ bool Warriorskill_2::useSkill(player &hero, Character &target) {
   return false;
 }
 Warriorskill_3::Warriorskill_3() : skill(3, 20, 15, 5, 40, 1, "¿ñ±©") {}
-bool Warriorskill_3::useSkill(player &hero, Character &target) {
+bool Warriorskill_3::useSkill(player &hero, enemy &target) {
   if (canUse(hero)) {
     cout << "You used " << getskillname() << " on " << target.getname() << endl;
-    target.takedamage(getdamage() * getskilllevel());
+    if (target.hasAffix(Affix::SHIELDING)) {
+      cout << ">>> " << target.getname() << "¡¾»¤¶Ü¡¿ <<<" << endl;
+      int shieldAmount = 10 + target.getlevel() * 5;
+      cout << target.getname() << " absorbs " << shieldAmount
+           << " damage with its shield!" << endl;
+      int damageDealt = max(0, getdamage() * getskilllevel() - shieldAmount);
+      if (damageDealt > 0) {
+        cout << "Your skill breaks through the shield and deals " << damageDealt
+             << " damage!" << endl;
+        target.takedamage(damageDealt);
+      } else {
+        cout << "Your skill couldn't penetrate the shield!" << endl;
+      }
+    } else {
+      target.takedamage(getdamage() * getskilllevel());
+    }
     hero.setmp(hero.getmp() - getcostmp());
     resetcooldown();
     return true;
@@ -92,10 +138,25 @@ bool Warriorskill_3::useSkill(player &hero, Character &target) {
   return false;
 }
 Mageskill_1::Mageskill_1() : skill(1, 10, 8, 3, 25, 1, "»ðÇòÊõ") {}
-bool Mageskill_1::useSkill(player &hero, Character &target) {
+bool Mageskill_1::useSkill(player &hero, enemy &target) {
   if (canUse(hero)) {
     cout << "You used " << getskillname() << " on " << target.getname() << endl;
-    target.takedamage(getdamage() * getskilllevel());
+    if (target.hasAffix(Affix::SHIELDING)) {
+      cout << ">>> " << target.getname() << "¡¾»¤¶Ü¡¿ <<<" << endl;
+      int shieldAmount = 10 + target.getlevel() * 5;
+      cout << target.getname() << " absorbs " << shieldAmount
+           << " damage with its shield!" << endl;
+      int damageDealt = max(0, getdamage() * getskilllevel() - shieldAmount);
+      if (damageDealt > 0) {
+        cout << "Your skill breaks through the shield and deals " << damageDealt
+             << " damage!" << endl;
+        target.takedamage(damageDealt);
+      } else {
+        cout << "Your skill couldn't penetrate the shield!" << endl;
+      }
+    } else {
+      target.takedamage(getdamage() * getskilllevel());
+    }
     hero.setmp(hero.getmp() - getcostmp());
     resetcooldown();
     return true;
@@ -103,10 +164,25 @@ bool Mageskill_1::useSkill(player &hero, Character &target) {
   return false;
 }
 Mageskill_2::Mageskill_2() : skill(2, 15, 12, 4, 35, 1, "±ùËªÐÂÐÇ") {}
-bool Mageskill_2::useSkill(player &hero, Character &target) {
+bool Mageskill_2::useSkill(player &hero, enemy &target) {
   if (canUse(hero)) {
     cout << "You used " << getskillname() << " on " << target.getname() << endl;
-    target.takedamage(getdamage() * getskilllevel());
+    if (target.hasAffix(Affix::SHIELDING)) {
+      cout << ">>> " << target.getname() << "¡¾»¤¶Ü¡¿ <<<" << endl;
+      int shieldAmount = 10 + target.getlevel() * 5;
+      cout << target.getname() << " absorbs " << shieldAmount
+           << " damage with its shield!" << endl;
+      int damageDealt = max(0, getdamage() * getskilllevel() - shieldAmount);
+      if (damageDealt > 0) {
+        cout << "Your skill breaks through the shield and deals " << damageDealt
+             << " damage!" << endl;
+        target.takedamage(damageDealt);
+      } else {
+        cout << "Your skill couldn't penetrate the shield!" << endl;
+      }
+    } else {
+      target.takedamage(getdamage() * getskilllevel());
+    }
     hero.setmp(hero.getmp() - getcostmp());
     resetcooldown();
     return true;
@@ -114,10 +190,25 @@ bool Mageskill_2::useSkill(player &hero, Character &target) {
   return false;
 }
 Mageskill_3::Mageskill_3() : skill(3, 20, 18, 5, 50, 1, "ÉÁµçÁ´") {}
-bool Mageskill_3::useSkill(player &hero, Character &target) {
+bool Mageskill_3::useSkill(player &hero, enemy &target) {
   if (canUse(hero)) {
     cout << "You used " << getskillname() << " on " << target.getname() << endl;
-    target.takedamage(getdamage() * getskilllevel());
+    if (target.hasAffix(Affix::SHIELDING)) {
+      cout << ">>> " << target.getname() << "¡¾»¤¶Ü¡¿ <<<" << endl;
+      int shieldAmount = 10 + target.getlevel() * 5;
+      cout << target.getname() << " absorbs " << shieldAmount
+           << " damage with its shield!" << endl;
+      int damageDealt = max(0, getdamage() * getskilllevel() - shieldAmount);
+      if (damageDealt > 0) {
+        cout << "Your skill breaks through the shield and deals " << damageDealt
+             << " damage!" << endl;
+        target.takedamage(damageDealt);
+      } else {
+        cout << "Your skill couldn't penetrate the shield!" << endl;
+      }
+    } else {
+      target.takedamage(getdamage() * getskilllevel());
+    }
     hero.setmp(hero.getmp() - getcostmp());
     resetcooldown();
     return true;
@@ -125,10 +216,25 @@ bool Mageskill_3::useSkill(player &hero, Character &target) {
   return false;
 }
 Assassinskill_1::Assassinskill_1() : skill(1, 10, 6, 3, 15, 1, "´©´Ì") {}
-bool Assassinskill_1::useSkill(player &hero, Character &target) {
+bool Assassinskill_1::useSkill(player &hero, enemy &target) {
   if (canUse(hero)) {
     cout << "You used " << getskillname() << " on " << target.getname() << endl;
-    target.takedamage(getdamage() * getskilllevel());
+    if (target.hasAffix(Affix::SHIELDING)) {
+      cout << ">>> " << target.getname() << "¡¾»¤¶Ü¡¿ <<<" << endl;
+      int shieldAmount = 10 + target.getlevel() * 5;
+      cout << target.getname() << " absorbs " << shieldAmount
+           << " damage with its shield!" << endl;
+      int damageDealt = max(0, getdamage() * getskilllevel() - shieldAmount);
+      if (damageDealt > 0) {
+        cout << "Your skill breaks through the shield and deals " << damageDealt
+             << " damage!" << endl;
+        target.takedamage(damageDealt);
+      } else {
+        cout << "Your skill couldn't penetrate the shield!" << endl;
+      }
+    } else {
+      target.takedamage(getdamage() * getskilllevel());
+    }
     hero.setmp(hero.getmp() - getcostmp());
     resetcooldown();
     return true;
@@ -136,10 +242,25 @@ bool Assassinskill_1::useSkill(player &hero, Character &target) {
   return false;
 }
 Assassinskill_2::Assassinskill_2() : skill(2, 15, 10, 4, 25, 1, "¶àÖØÉä»÷") {}
-bool Assassinskill_2::useSkill(player &hero, Character &target) {
+bool Assassinskill_2::useSkill(player &hero, enemy &target) {
   if (canUse(hero)) {
     cout << "You used " << getskillname() << " on " << target.getname() << endl;
-    target.takedamage(getdamage() * getskilllevel());
+    if (target.hasAffix(Affix::SHIELDING)) {
+      cout << ">>> " << target.getname() << "¡¾»¤¶Ü¡¿ <<<" << endl;
+      int shieldAmount = 10 + target.getlevel() * 5;
+      cout << target.getname() << " absorbs " << shieldAmount
+           << " damage with its shield!" << endl;
+      int damageDealt = max(0, getdamage() * getskilllevel() - shieldAmount);
+      if (damageDealt > 0) {
+        cout << "Your skill breaks through the shield and deals " << damageDealt
+             << " damage!" << endl;
+        target.takedamage(damageDealt);
+      } else {
+        cout << "Your skill couldn't penetrate the shield!" << endl;
+      }
+    } else {
+      target.takedamage(getdamage() * getskilllevel());
+    }
     hero.setmp(hero.getmp() - getcostmp());
     resetcooldown();
     return true;
@@ -147,10 +268,25 @@ bool Assassinskill_2::useSkill(player &hero, Character &target) {
   return false;
 }
 Assassinskill_3::Assassinskill_3() : skill(3, 20, 14, 5, 35, 1, "±¬Õ¨¼ý") {}
-bool Assassinskill_3::useSkill(player &hero, Character &target) {
+bool Assassinskill_3::useSkill(player &hero, enemy &target) {
   if (canUse(hero)) {
     cout << "You used " << getskillname() << " on " << target.getname() << endl;
-    target.takedamage(getdamage() * getskilllevel());
+    if (target.hasAffix(Affix::SHIELDING)) {
+      cout << ">>> " << target.getname() << "¡¾»¤¶Ü¡¿ <<<" << endl;
+      int shieldAmount = 10 + target.getlevel() * 5;
+      cout << target.getname() << " absorbs " << shieldAmount
+           << " damage with its shield!" << endl;
+      int damageDealt = max(0, getdamage() * getskilllevel() - shieldAmount);
+      if (damageDealt > 0) {
+        cout << "Your skill breaks through the shield and deals " << damageDealt
+             << " damage!" << endl;
+        target.takedamage(damageDealt);
+      } else {
+        cout << "Your skill couldn't penetrate the shield!" << endl;
+      }
+    } else {
+      target.takedamage(getdamage() * getskilllevel());
+    }
     hero.setmp(hero.getmp() - getcostmp());
     resetcooldown();
     return true;

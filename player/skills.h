@@ -1,5 +1,5 @@
 #pragma once
-#include "character.h"
+#include "enemy.h"
 #include <string>
 class player;
 class skill {
@@ -36,52 +36,52 @@ public:
   void resetcooldown();
   bool canUse(player &hero) const;
   virtual ~skill() = default;
-  virtual bool useSkill(player &hero, Character &target) = 0;
+  virtual bool useSkill(player &hero, enemy &target) = 0;
   void levelUpSkill(int playerLevel, int costcoins);
   void learnSkill(int playerlevel);
 };
 class Warriorskill_1 : public skill {
 public:
   Warriorskill_1();
-  bool useSkill(player &hero, Character &target) override;
+  bool useSkill(player &hero, enemy &target) override;
 };
 class Warriorskill_2 : public skill {
 public:
   Warriorskill_2();
-  bool useSkill(player &hero, Character &target) override;
+  bool useSkill(player &hero, enemy &target) override;
 };
 class Warriorskill_3 : public skill {
 public:
   Warriorskill_3();
-  bool useSkill(player &hero, Character &target) override;
+  bool useSkill(player &hero, enemy &target) override;
 };
 class Mageskill_1 : public skill {
 public:
   Mageskill_1();
-  bool useSkill(player &hero, Character &target) override;
+  bool useSkill(player &hero, enemy &target) override;
 };
 class Mageskill_2 : public skill {
 public:
   Mageskill_2();
-  bool useSkill(player &hero, Character &target) override;
+  bool useSkill(player &hero, enemy &target) override;
 };
 class Mageskill_3 : public skill {
 public:
   Mageskill_3();
-  bool useSkill(player &hero, Character &target) override;
+  bool useSkill(player &hero, enemy &target) override;
 };
 class Assassinskill_1 : public skill {
 public:
   Assassinskill_1();
-  bool useSkill(player &hero, Character &target) override;
+  bool useSkill(player &hero, enemy &target) override;
 };
 class Assassinskill_2 : public skill {
 public:
   Assassinskill_2();
-  bool useSkill(player &hero, Character &target) override;
+  bool useSkill(player &hero, enemy &target) override;
 };
 class Assassinskill_3 : public skill {
 public:
   Assassinskill_3();
-  bool useSkill(player &hero, Character &target) override;
+  bool useSkill(player &hero, enemy &target) override;
 };
