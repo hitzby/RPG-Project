@@ -26,9 +26,10 @@ void player::resetFreeRevive() { free_revives = 3; }
 
 void player::gainexp(int amount) {
   this->exp += amount;
-  cout << getname() << "gain" << amount << "points of exp!" << endl;
+  cout << getname() << " gain " << amount << " points of exp!" << endl;
   while (this->exp >= level * 100) {
-    exp -= level * 100;
+    int threshold = level * 100; // 先用当前 level 计算阈值
+    exp -= threshold;            // 再扣除，避免 levelup() 改变 level 后错误扣减
     levelup();
   }
 }
@@ -164,7 +165,8 @@ void player::printBackpack() const {
              : item.getType() == Armor ? "防具"
                                        : "药水")
          << "\n   价值: " << item.getValue() << "\n   价格: " << item.getPrice()
-         << "\n   等级需求: " << item.getLevelRequirement() << endl;
+         << "\n   等级需求: " << item.getLevelRequirement()
+         << "\n   职业限制: " << item.getJobRequirementName() << endl;
     cout << "-----------------------------\n";
   }
 }
@@ -196,8 +198,21 @@ void player::equipItem(int index) {
   }
   Item itemToEquip = backpack[index - 1];
   if (itemToEquip.getLevelRequirement() > level) {
-    cout << "等级不足，无法装备" << itemToEquip.getName() << "！" << endl;
+    cout << "等级不足，无法装备【" << itemToEquip.getName() << "】！" << endl;
     return;
+  }
+  // ── 职业限制检查 ──
+  JobReq jr = itemToEquip.getJobRequirement();
+  if (jr != AnyJob) {
+    string job = getjob();
+    bool ok = (jr == WarriorOnly && job == "Warrior") ||
+              (jr == MageOnly && job == "Mage") ||
+              (jr == AssassinOnly && job == "Assassin");
+    if (!ok) {
+      cout << "【" << itemToEquip.getName() << "】是"
+           << itemToEquip.getJobRequirementName() << "，你无法装备！" << endl;
+      return;
+    }
   }
   if (itemToEquip.getType() == Weapon || itemToEquip.getType() == Armor) {
     for (int i = (int)equipments.size() - 1; i >= 0; --i) {
@@ -381,6 +396,19 @@ void player::levelUpSkill(int index) {
 }
 
 void player::equipItem_T(const Item &item) {
+  // 职业限制（宝箱/事件直接装备也要检查）
+  JobReq jr = item.getJobRequirement();
+  if (jr != AnyJob) {
+    string job = getjob();
+    bool ok = (jr == WarriorOnly && job == "Warrior") ||
+              (jr == MageOnly && job == "Mage") ||
+              (jr == AssassinOnly && job == "Assassin");
+    if (!ok) {
+      cout << "【" << item.getName() << "】是" << item.getJobRequirementName()
+           << "，你无法装备！" << endl;
+      return;
+    }
+  }
   if (item.getType() == Weapon || item.getType() == Armor) {
     for (int i = (int)equipments.size() - 1; i >= 0; --i) {
       if (equipments[i].getType() == item.getType()) {
@@ -425,6 +453,20 @@ void player::equipItem_T(const Item &item) {
   } else {
     cout << "只能装备武器或防具！" << endl;
   }
+}
+
+// ── 丢弃背包物品 ──
+void player::dropItem(int index) {
+  if (index < 1 || index > (int)backpack.size()) {
+    cout << "无效的物品索引！" << endl;
+    return;
+  }
+  const Item &item = backpack[index - 1];
+  cout << "丢弃了【" << item.getName() << "】×" << item.getQuantity()
+       << "。（卖出价约 " << item.getPrice() / 3 << " 金币）" << endl;
+  // 丢弃时给予三分之一售价作为补偿
+  coin += item.getPrice() / 3;
+  backpack.erase(backpack.begin() + index - 1);
 }
 
 // ════════════════════════════════════════════════════

@@ -61,6 +61,7 @@ public:
   void unequipItem(int index);
   void showEquippedItems() const;
   void equipItem_T(const Item &item); // 直接装备（无等级检查）
+  void dropItem(int index);           // 丢弃背包物品
 
   // ── 技能 ──
   void showSkills(player &hero) const;

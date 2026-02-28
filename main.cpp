@@ -54,85 +54,129 @@ eventType generateRandomEvent() {
     return eventType::SHRINE;
 }
 
-// ─────────────────────────────────────────────
-//  随机物品生成
-// ─────────────────────────────────────────────
-// ─────────────────────────────────────────────
-//  物品品质分级（参考 Diablo 装备等级设计）
-//  普通 / 精良 / 稀有 / 史诗
-// ─────────────────────────────────────────────
-static string getWeaponName(int floor, int tier) {
-  const string weapons[][4] = {
-      {"破旧匕首", "铁剑", "精钢长剑", "符文战剑"},
-      {"木弓", "角弓", "精灵长弓", "龙骨弓"},
-      {"朽木法杖", "水晶法杖", "龙纹法杖", "混沌魔杖"},
-  };
-  int row = rand() % 3;
-  return weapons[row][min(tier, 3)];
-}
-static string getArmorName(int floor, int tier) {
-  const string armors[][4] = {
-      {"破布衬衣", "皮甲", "锁子甲", "秘银板甲"},
-      {"木盾", "铁盾", "精钢盾牌", "神圣盾牌"},
-      {"布袍", "学者长袍", "魔纹法衣", "星辰法衣"},
-  };
-  int row = rand() % 3;
-  return armors[row][min(tier, 3)];
-}
-static string getPotionName(int tier) {
-  const string potions[] = {"小型治疗药水", "治疗药水", "优质治疗药水",
-                            "神圣圣水"};
-  return potions[min(tier, 3)];
-}
+// ══════════════════════════════════════════════════════════════
+//  装备名称池（按职业 + 品质分级）
+//  tier: 0=普通  1=精良  2=稀有  3=史诗
+// ══════════════════════════════════════════════════════════════
 
+// ── 战士专用武器（重型近战：剑/锤/斧/枪/弯刀）──
+static const char *W_WPN[5][4] = {
+    {"破旧铁剑", "精锻铁剑", "精钢巨剑", "神圣圣剑"},
+    {"铁制战锤", "精钢战锤", "符文战锤", "暗金战锤"},
+    {"缺口战斧", "精锻战斧", "暗铁战斧", "符文巨斧"},
+    {"朽木长枪", "精钢战枪", "龙魂长枪", "神圣战枪"},
+    {"生锈弯刀", "精钢弯刀", "血月弯刀", "神器弯刀"},
+};
+// ── 战士专用防具（重甲/盾/护腿/头盔）──
+static const char *W_ARM[4][4] = {
+    {"破旧链甲", "铁链甲", "精钢板甲", "秘银重甲"},
+    {"木制圆盾", "铁皮盾牌", "精钢塔盾", "神盾"},
+    {"皮革护腿", "铁制护腿", "精钢护腿", "龙鳞护腿"},
+    {"旧铁头盔", "铁制头盔", "精钢战盔", "龙骨战盔"},
+};
+// ── 法师专用武器（法杖/魔杖/法典/念珠）──
+static const char *M_WPN[4][4] = {
+    {"朽木法杖", "水晶法杖", "龙纹法杖", "混沌魔杖"},
+    {"学徒魔杖", "元素魔杖", "奥术魔杖", "虚空魔杖"},
+    {"破旧法典", "元素法典", "古代法典", "禁忌法典"},
+    {"玻璃念珠", "水晶念珠", "符文念珠", "星辰念珠"},
+};
+// ── 法师专用防具（法袍/法帽/腰带）──
+static const char *M_ARM[3][4] = {
+    {"粗布法袍", "学者长袍", "魔纹法衣", "星辰法衣"},
+    {"布制帽子", "学者帽", "魔法高帽", "星辰法冠"},
+    {"皮质腰带", "魔力腰带", "奥术腰带", "虚空腰带"},
+};
+// ── 刺客专用武器（短刀/弓/毒刃/飞镖）──
+static const char *A_WPN[4][4] = {
+    {"锈铁短刀", "寒铁匕首", "幽影刺刀", "影刃"},
+    {"木弓", "角弓", "精灵长弓", "龙骨弓"},
+    {"毒涂匕首", "蛇毒短刃", "幽毒利刃", "死亡之刃"},
+    {"铁制飞镖", "毒针飞镖", "幻影飞镖", "神器飞镖"},
+};
+// ── 刺客专用防具（皮甲/披风/手套）──
+static const char *A_ARM[3][4] = {
+    {"破旧皮甲", "精皮甲", "影袭皮甲", "暗影战甲"},
+    {"布制披风", "皮质披风", "暗影披风", "虚空披风"},
+    {"皮手套", "利爪手套", "暗影手套", "死神手套"},
+};
+// ── 通用防具（护符/腰带）──
+static const char *C_ARM[2][4] = {
+    {"破旧护符", "精制护符", "圣光护符", "神器护符"},
+    {"兽皮腰带", "皮腰带", "守护腰带", "圣战腰带"},
+};
+// ── 药水（通用）──
+static const char *POTIONS[4] = {"小型治疗药水", "治疗药水", "优质治疗药水",
+                                 "神圣圣水"};
+
+// ──────────────────────────────────────────────────────────────
+//  generateRandomItem：带职业限制 + 品质分级
+// ──────────────────────────────────────────────────────────────
 Item generateRandomItem(int floor) {
-  // 品质：floor越高，出现高品质概率越大
+  // ── 品质判定（高层品质下限提升）──
   int r = rand() % 100;
-  int tier;
-  if (r < 50)
-    tier = 0; // 普通  50%
-  else if (r < 80)
-    tier = 1; // 精良  30%
-  else if (r < 95)
-    tier = 2; // 稀有  15%
-  else
-    tier = 3; // 史诗   5%（低楼层也可能）
+  int tier = (r < 50) ? 0 : (r < 80) ? 1 : (r < 95) ? 2 : 3;
+  tier = min(3, tier + floor / 20);
+  int t = tier;
 
-  // 楼层越高，品质下限越高
-  int floorBonus = floor / 20; // 每20层，品质至少+1
-  tier = min(3, tier + floorBonus);
+  // ── 类型：30%武器 / 35%防具 / 35%药水 ──
+  int roll = rand() % 100;
+  bool isWeapon = (roll < 30);
+  bool isArmor = (roll < 65 && !isWeapon);
+  // else: 药水
 
-  int itemType = rand() % 3;
-
-  // 数值：tier决定基础，floor决定成长
-  // 武器攻击+：约等于对应层怪物攻击的30%~60%，有显著提升
-  // 防具HP+：约等于对应层玩家HP的15%~30%
-  int baseVal = (tier + 1) * 6 + floor * 2;
-  int value = baseVal + rand() % (baseVal / 2 + 1);
-
-  // 药水：回复量有意义（初期回30~60，中期60~120）
-  int potVal = 25 + (tier + 1) * 15 + floor * 3;
-
-  // 耐久度：精良/稀有/史诗更耐用
-  int durability = (tier + 1) * 8 + floor / 2 + rand() % 5;
-  // 价格：稀有品贵，但合理
-  int price = (tier + 1) * 30 + floor * 8;
-  // 等级需求：约等于floor，但不超过太多
-  int levelReq = max(1, floor - 2 + tier);
-
-  switch (itemType) {
-  case 0: {
-    string name = getPotionName(tier);
-    return Item(name, 1, Potion, potVal, 0, price / 2, 1);
+  if (!isWeapon && !isArmor) {
+    int potVal = 30 + (t + 1) * 15 + floor * 3;
+    int price = (t + 1) * 20 + floor * 5;
+    return Item(POTIONS[t], 1, Potion, potVal, 0, price, 1, AnyJob);
   }
-  case 1: {
-    string name = getWeaponName(floor, tier);
-    return Item(name, levelReq, Weapon, value, durability, price, 1);
+
+  // ── 数值 ──
+  // 武器攻击加成：参考同层怪物攻击的30~50%，让装备有明显提升
+  int baseAtk = (t + 1) * 5 + floor * 2;
+  int atkVal = baseAtk + rand() % max(1, baseAtk / 3);
+  // 防具HP加成：比武器高，能扛1~2刀
+  int baseHp = (t + 1) * 10 + floor * 4;
+  int hpVal = baseHp + rand() % max(1, baseHp / 3);
+  // 耐久/价格/等级需求
+  int dur = (t + 1) * 10 + floor / 2 + rand() % 6;
+  int price = (t + 1) * 35 + floor * 10;
+  int levelReq = max(1, floor - 3 + t);
+
+  // ── 职业归属 ──
+  // 武器：战士35% / 法师30% / 刺客35%
+  // 防具：战士35% / 法师25% / 刺客25% / 通用15%
+  int jr = rand() % 100;
+  JobReq job;
+  if (isWeapon) {
+    job = (jr < 35) ? WarriorOnly : (jr < 65) ? MageOnly : AssassinOnly;
+  } else {
+    job = (jr < 35)   ? WarriorOnly
+          : (jr < 60) ? MageOnly
+          : (jr < 85) ? AssassinOnly
+                      : AnyJob;
   }
-  default: {
-    string name = getArmorName(floor, tier);
-    return Item(name, levelReq, Armor, value + value / 2, durability, price, 1);
-  }
+
+  if (isWeapon) {
+    const char *name;
+    if (job == WarriorOnly)
+      name = W_WPN[rand() % 5][t];
+    else if (job == MageOnly)
+      name = M_WPN[rand() % 4][t];
+    else
+      name = A_WPN[rand() % 4][t];
+    return Item(name, levelReq, Weapon, atkVal, dur, price, 1, job);
+  } else {
+    const char *name;
+    if (job == WarriorOnly)
+      name = W_ARM[rand() % 4][t];
+    else if (job == MageOnly)
+      name = M_ARM[rand() % 3][t];
+    else if (job == AssassinOnly)
+      name = A_ARM[rand() % 3][t];
+    else
+      name = C_ARM[rand() % 2][t];
+    return Item(name, levelReq, Armor, hpVal, dur, price, 1, job);
   }
 }
 
@@ -193,6 +237,7 @@ void showshop(player &hero, int floor, vector<Item> &shopItems) {
          << "\n   价格: " << shopItems[i].getPrice()
          << " 数量: " << shopItems[i].getQuantity()
          << "\n   等级需求: " << shopItems[i].getLevelRequirement()
+         << "\n   职业限制: " << shopItems[i].getJobRequirementName()
          << "\n   你的金币：" << hero.getcoin()
          << "\n=========================================" << endl;
   }
@@ -223,17 +268,23 @@ bool hadEvent(player &hero, int floor) {
     cout << "价值 " << randomItem.getValue() << "，耐久 "
          << randomItem.getDurability() << "，等级需求 "
          << randomItem.getLevelRequirement() << "！" << endl;
-    cout << "[1] 加入背包  [2] 直接装备  [3] 丢弃" << endl;
+    // 显示职业限制提示
+    if (randomItem.getJobRequirement() != AnyJob)
+      cout << "  ? 此物品为【" << randomItem.getJobRequirementName() << "】"
+           << endl;
+    cout << "[1] 加入背包  [2] 直接装备  [3] 丢弃（获少量金币）" << endl;
     int c;
     c = safeReadInt();
     if (c == 1) {
       hero.addItem(randomItem);
       cout << "物品已加入背包！" << endl;
     } else if (c == 2) {
-      hero.equipItem_T(randomItem);
-      cout << "物品已装备！" << endl;
-    } else
-      cout << "物品被丢弃了。" << endl;
+      hero.equipItem_T(randomItem); // 职业检查在内部处理
+    } else {
+      int junkGold = randomItem.getPrice() / 3;
+      hero.gaincoin(junkGold);
+      cout << "物品被丢弃，获得 " << junkGold << " 金币。" << endl;
+    }
   } break;
 
   case eventType::TRAP: {
@@ -514,10 +565,17 @@ int main() {
       shopItems.push_back(generateRandomItem(floor));
 
     // 内层：本层刷怪
-    while (true) {
-      enemy monster = generateEnemy(floor);
-      monster.displayAffixes();
+    // needNewMonster 控制是否重新生成怪物
+    // 初次进入或战斗结束后才生成新怪，查看背包/状态等不刷新
+    bool needNewMonster = true;
+    enemy monster = generateEnemy(floor); // 占位初始化，马上被覆盖
 
+    while (true) {
+      if (needNewMonster) {
+        monster = generateEnemy(floor);
+        monster.displayAffixes();
+        needNewMonster = false;
+      }
       cout << "\n========================================" << endl;
       cout << "楼层：" << floor << endl;
       cout << "玩家：Lv." << ptr->getlevel() << " | HP：" << ptr->gethp()
@@ -545,6 +603,21 @@ int main() {
 
       if (choice == 2) {
         ptr->printBackpack();
+        cout << "[1] 使用物品  [2] 装备物品  [3] 丢弃物品  [4] 返回" << endl;
+        int bmc = safeReadInt();
+        if (bmc == 1) {
+          cout << "输入物品序号：";
+          int idx = safeReadInt();
+          ptr->useItem(idx);
+        } else if (bmc == 2) {
+          cout << "输入物品序号：";
+          int idx = safeReadInt();
+          ptr->equipItem(idx);
+        } else if (bmc == 3) {
+          cout << "输入要丢弃的物品序号（丢弃可获得少量金币）：";
+          int idx = safeReadInt();
+          ptr->dropItem(idx);
+        }
         continue;
       }
 
@@ -617,6 +690,7 @@ int main() {
           pbc = safeReadInt();
 
           if (pbc == 1) {
+            needNewMonster = true; // 生成新怪物
             continue;
           }
 
@@ -647,19 +721,21 @@ int main() {
 
           else if (pbc == 5) {
             ptr->printBackpack();
-            cout << "[1] 使用物品  [2] 装备物品  [3] 返回" << endl;
-            int bc;
-            bc = safeReadInt();
+            cout << "[1] 使用物品  [2] 装备物品  [3] 丢弃物品  [4] 返回"
+                 << endl;
+            int bc = safeReadInt();
             if (bc == 1) {
               cout << "输入物品序号：";
-              int idx;
-              idx = safeReadInt();
+              int idx = safeReadInt();
               ptr->useItem(idx);
             } else if (bc == 2) {
               cout << "输入物品序号：";
-              int idx;
-              idx = safeReadInt();
+              int idx = safeReadInt();
               ptr->equipItem(idx);
+            } else if (bc == 3) {
+              cout << "输入要丢弃的物品序号（丢弃可获得少量金币）：";
+              int idx = safeReadInt();
+              ptr->dropItem(idx);
             }
             goto post_battle_decision;
           }

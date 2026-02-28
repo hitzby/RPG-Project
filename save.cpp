@@ -1,7 +1,6 @@
 #include "save.h"
 #include "jobs.h"
 #include "skills.h"
-
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -27,12 +26,13 @@ static vector<string> split(const string &s, char delim) {
 //  Item 序列化 / 反序列化
 // ─────────────────────────────────────────────
 string SaveSystem::serializeItem(const Item &item) {
-  // 格式：名称|等级需求|类型|数值|耐久|价格|数量
+  // 格式：名称|等级需求|类型|数值|耐久|价格|数量|职业限制
   ostringstream oss;
   oss << item.getName() << "|" << item.getLevelRequirement() << "|"
       << static_cast<int>(item.getType()) << "|" << item.getValue() << "|"
       << item.getDurability() << "|" << item.getPrice() << "|"
-      << item.getQuantity();
+      << item.getQuantity() << "|"
+      << static_cast<int>(item.getJobRequirement());
   return oss.str();
 }
 
@@ -48,8 +48,12 @@ Item SaveSystem::deserializeItem(const string &line) {
   int durability = stoi(tok[4]);
   int price = stoi(tok[5]);
   int quantity = stoi(tok[6]);
+  // tok[7] 可能不存在（旧存档兼容）
+  JobReq jobReq = AnyJob;
+  if (tok.size() >= 8)
+    jobReq = static_cast<JobReq>(stoi(tok[7]));
 
-  return Item(name, levelReq, type, value, durability, price, quantity);
+  return Item(name, levelReq, type, value, durability, price, quantity, jobReq);
 }
 
 // ─────────────────────────────────────────────
